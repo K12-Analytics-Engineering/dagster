@@ -1,0 +1,4 @@
+load_from:
+  - python_file:
+      relative_path: project/dev_repository.py
+      working_directory: dagster-edfi-api-to-bq-amt/
