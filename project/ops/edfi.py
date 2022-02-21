@@ -183,7 +183,7 @@ def extract_and_upload_data(
     # existing files in gcs
     if use_change_queries is False:
         context.resources.data_lake.delete_files(
-            folder_name=api_endpoint["table_name"], school_year=school_year
+            gcs_path=f"edfi_api/{school_year}/{api_endpoint['table_name']}/"
         )
 
     # process yielded records from generator
@@ -206,8 +206,7 @@ def extract_and_upload_data(
 
         # upload current set of records from generator
         gcs_path = context.resources.data_lake.upload_json(
-            table_name=api_endpoint["table_name"],
-            school_year=school_year,
+            gcs_path = f"edfi_api/{school_year}/{api_endpoint['table_name']}/",
             records=records_to_upload,
         )
 

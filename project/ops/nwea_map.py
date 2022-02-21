@@ -111,7 +111,7 @@ def get_edfi_payloads(context, dbt_run_result, table_reference: str) -> List:
     required_resource_keys={"edfi_api_client"},
     tags={"kind": "load"},
 )
-def post_edfi_payloads(context, start_after, edfi_assessments_json: List,
+def post_nwea_map_edfi_payloads(context, start_after, edfi_assessments_json: List,
     school_year: str, api_endpoint: str) -> List:
     """
     POST payloads to passed in Ed-Fi API endpoint,

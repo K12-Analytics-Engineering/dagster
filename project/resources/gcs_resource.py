@@ -16,13 +16,12 @@ class GcsClient:
         self.log = get_dagster_logger()
 
 
-    def delete_files(self, folder_name, school_year):
+    def delete_files(self, gcs_path):
         """
         Delete all files in passed in bucket folder
         """
         storage_client = storage.Client()
         bucket = storage_client.get_bucket(self.staging_gcs_bucket)
-        gcs_path = f"edfi_api/{school_year}/{folder_name}/"
         blobs = list(bucket.list_blobs(prefix=gcs_path))
         for blob in blobs:
             blob.delete()
@@ -60,12 +59,11 @@ class GcsClient:
         return f"gs://{self.staging_gcs_bucket}/{folder_name}/{file_name}"
 
 
-    def upload_json(self, table_name, school_year, records) -> str:
+    def upload_json(self, gcs_path, records) -> str:
         """
         Upload list of dictionaries to gcs
         as a JSON file.
         """
-        gcs_path = f"edfi_api/{school_year}/{table_name}/"
         storage_client = storage.Client()
         bucket = storage_client.get_bucket(self.staging_gcs_bucket)
 

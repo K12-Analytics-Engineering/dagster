@@ -5,7 +5,7 @@ from dagster_dbt import dbt_cli_resource, dbt_run_op
 from dagster_gcp.gcs.resources import gcs_resource
 
 from ops.nwea_map import (get_edfi_payloads,
-                          get_extracts, load_extract, post_edfi_payloads,
+                          get_extracts, load_extract, post_nwea_map_edfi_payloads,
                           post_nwea_map_edfi_descriptors)
 from resources.bq_resource import bq_client
 from resources.edfi_api_resource import edfi_api_resource_client
@@ -32,13 +32,13 @@ def nwea_map():
     edfi_student_assessments_json = get_edfi_payloads.alias(
         "get_edfi_student_assessments_payloads")(dbt_run_result)
 
-    edfi_assessments_result = post_edfi_payloads.alias("post_edfi_assessment_payloads")(
+    edfi_assessments_result = post_nwea_map_edfi_payloads.alias("post_edfi_assessment_payloads")(
         start_after=[post_descriptors_result, edfi_assessments_json],
         edfi_assessments_json=edfi_assessments_json)
-    edfi_objective_assessments_result = post_edfi_payloads.alias("post_edfi_objective_assessments_payloads")(
+    edfi_objective_assessments_result = post_nwea_map_edfi_payloads.alias("post_edfi_objective_assessments_payloads")(
         start_after=[post_descriptors_result, edfi_assessments_result],
         edfi_assessments_json=edfi_objective_assessments_json)
-    post_edfi_payloads.alias("post_edfi_student_assessments_payloads")(
+    post_nwea_map_edfi_payloads.alias("post_edfi_student_assessments_payloads")(
         start_after=[edfi_assessments_result, edfi_objective_assessments_result],
         edfi_assessments_json=edfi_student_assessments_json)
 

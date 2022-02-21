@@ -122,6 +122,34 @@ class EdFiApiClient:
                 offset = offset + limit
 
 
+    def delete_data(self, id, school_year, api_endpoint) -> str:
+        """
+        """
+        headers = { "Authorization": f"Bearer {self.access_token}" }
+        if self.api_mode == "YearSpecific":
+            endpoint = f"{self.base_url}/data/v3/{school_year}/{api_endpoint}/{id}"
+        else:
+            endpoint = f"{self.base_url}/data/v3/{api_endpoint}/{id}"
+
+        self.log.debug(endpoint)
+
+        try:
+            response = requests.delete(
+                endpoint,
+                headers=headers
+            )
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as err:
+            if response.status_code == 404:
+                self.log.info(f"Ed-Fi API ID {id} does not exist")
+                return f"Ed-Fi API ID {id} does not exist"
+            self.log.warn(response.text)
+            self.log.warn(f"Failed to delete id: {err}")
+            raise err
+
+        return f"Ed-Fi API ID {id} successfully deleted"
+
+
     def post_data(
         self,
         records,
