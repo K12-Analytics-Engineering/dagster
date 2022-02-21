@@ -1,7 +1,5 @@
 # Ed-Fi API to BigQuery data marts
-This repository contains various Dagster ELT jobs.
-
-This Dagster job contains pulls data from a target Ed-Fi API and uploads it to Google Cloud Storage. In BigQuery via dbt, various data marts with dimension and fact tables organized around various business processes. If you are running the Ed-Fi API in YearSpecific mode or start with a new ODS at the start of the school year, this repository allows for extracting multiple school years of data and creates analytics tables that are multi-year.
+This Dagster job gets data from a target Ed-Fi API and uploads it to Google Cloud Storage. In BigQuery via dbt, various data marts with dimension and fact tables organized around various business processes. If you are running the Ed-Fi API in YearSpecific mode or start with a new ODS at the start of the school year, this repository allows for extracting multiple school years of data and creates analytics tables that are multi-year.
 
 This repository takes the viewpoint that each ODS should be limited to a single school year. It is recommended that LEAs run the Ed-Fi API mode in YearSpecific mode to have school year segmentation while having all years accessible via the Ed-Fi API.
 

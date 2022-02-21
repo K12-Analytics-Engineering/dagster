@@ -1,5 +1,5 @@
 # NWEA MAP API to Ed-Fi API
-This Dagster job extracts assessment data from the NWEA MAP API and sends it to a target Ed-Fi API.
+This Dagster job gets assessment data from the NWEA MAP API and sends it to a target Ed-Fi API.
 
 ELT, as opposed to ETL, moves the transformation step in a data workflow to the data warehouse. A focus is first put on extracting data and loading it in its raw state to a cloud data warehouse. After it has landed in the warehouse, SQL is run to transform that data to what is needed for downstream needs such as analytics.
 
