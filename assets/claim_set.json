@@ -68,7 +68,48 @@
               null,
               null
             ],
-            "Children": []
+            "Children": [
+              {
+                "Name": "questionFormDescriptor",
+                "Read": true,
+                "Create": true,
+                "Update": true,
+                "Delete": true,
+                "DefaultAuthStrategiesForCRUD": [
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 1,
+                    "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                    "DisplayName": "No Further Authorization Required",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  }
+                ],
+                "AuthStrategyOverridesForCRUD": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "Children": []
+              }
+            ]
           },
           {
             "Name": "managedDescriptors",
@@ -594,9 +635,9 @@
               {
                 "Name": "surveyResponse",
                 "Read": true,
-                "Create": false,
-                "Update": false,
-                "Delete": false,
+                "Create": true,
+                "Update": true,
+                "Delete": true,
                 "DefaultAuthStrategiesForCRUD": [
                   {
                     "AuthStrategyId": 4,
@@ -634,9 +675,9 @@
               {
                 "Name": "surveyQuestionResponse",
                 "Read": true,
-                "Create": false,
-                "Update": false,
-                "Delete": false,
+                "Create": true,
+                "Update": true,
+                "Delete": true,
                 "DefaultAuthStrategiesForCRUD": [
                   {
                     "AuthStrategyId": 4,
@@ -674,9 +715,9 @@
               {
                 "Name": "surveyQuestion",
                 "Read": true,
-                "Create": false,
-                "Update": false,
-                "Delete": false,
+                "Create": true,
+                "Update": true,
+                "Delete": true,
                 "DefaultAuthStrategiesForCRUD": [
                   {
                     "AuthStrategyId": 4,
@@ -714,9 +755,9 @@
               {
                 "Name": "survey",
                 "Read": true,
-                "Create": false,
-                "Update": false,
-                "Delete": false,
+                "Create": true,
+                "Update": true,
+                "Delete": true,
                 "DefaultAuthStrategiesForCRUD": [
                   {
                     "AuthStrategyId": 4,
