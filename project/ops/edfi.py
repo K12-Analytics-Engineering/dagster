@@ -205,7 +205,7 @@ def extract_and_upload_data(
             records_to_upload.append({"id": None, "data": json.dumps(response)})
 
         # upload current set of records from generator
-        gcs_path = context.resources.data_lake.load_data(
+        gcs_path = context.resources.data_lake.upload_json(
             table_name=api_endpoint["table_name"],
             school_year=school_year,
             records=records_to_upload,

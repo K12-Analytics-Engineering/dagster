@@ -1,679 +1,760 @@
 {
-    "title": "Analytics",
-    "template": {
-      "claimSets": [
-        {
-          "name": "Analytics",
-          "resourceClaims": [
-            {
-              "Name": "types",
-              "Read": true,
-              "Create": false,
-              "Update": false,
-              "Delete": false,
-              "DefaultAuthStrategiesForCRUD": [
-                null,
-                {
-                  "AuthStrategyId": 1,
-                  "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                  "DisplayName": "No Further Authorization Required",
-                  "IsInheritedFromParent": false
-                },
-                null,
-                null
-              ],
-              "AuthStrategyOverridesForCRUD": [
-                null,
-                null,
-                null,
-                null
-              ],
-              "Children": []
-            },
-            {
-              "Name": "systemDescriptors",
-              "Read": true,
-              "Create": false,
-              "Update": false,
-              "Delete": false,
-              "DefaultAuthStrategiesForCRUD": [
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 1,
-                  "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                  "DisplayName": "No Further Authorization Required",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                }
-              ],
-              "AuthStrategyOverridesForCRUD": [
-                null,
-                null,
-                null,
-                null
-              ],
-              "Children": []
-            },
-            {
-              "Name": "managedDescriptors",
-              "Read": true,
-              "Create": false,
-              "Update": false,
-              "Delete": false,
-              "DefaultAuthStrategiesForCRUD": [
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 1,
-                  "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                  "DisplayName": "No Further Authorization Required",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                }
-              ],
-              "AuthStrategyOverridesForCRUD": [
-                null,
-                null,
-                null,
-                null
-              ],
-              "Children": []
-            },
-            {
-              "Name": "educationOrganizations",
-              "Read": true,
-              "Create": false,
-              "Update": false,
-              "Delete": false,
-              "DefaultAuthStrategiesForCRUD": [
-                {
-                  "AuthStrategyId": 1,
-                  "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                  "DisplayName": "No Further Authorization Required",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 1,
-                  "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                  "DisplayName": "No Further Authorization Required",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 1,
-                  "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                  "DisplayName": "No Further Authorization Required",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 1,
-                  "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                  "DisplayName": "No Further Authorization Required",
-                  "IsInheritedFromParent": false
-                }
-              ],
-              "AuthStrategyOverridesForCRUD": [
-                null,
-                null,
-                null,
-                null
-              ],
-              "Children": [
-                {
-                  "Name": "school",
-                  "Read": true,
-                  "Create": true,
-                  "Update": true,
-                  "Delete": true,
-                  "DefaultAuthStrategiesForCRUD": [
-                    {
-                      "AuthStrategyId": 1,
-                      "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                      "DisplayName": "No Further Authorization Required",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 1,
-                      "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                      "DisplayName": "No Further Authorization Required",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 1,
-                      "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                      "DisplayName": "No Further Authorization Required",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 1,
-                      "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                      "DisplayName": "No Further Authorization Required",
-                      "IsInheritedFromParent": true
-                    }
-                  ],
-                  "AuthStrategyOverridesForCRUD": [
-                    null,
-                    null,
-                    null,
-                    null
-                  ],
-                  "Children": []
-                },
-                {
-                  "Name": "localEducationAgency",
-                  "Read": true,
-                  "Create": false,
-                  "Update": true,
-                  "Delete": false,
-                  "DefaultAuthStrategiesForCRUD": [
-                    {
-                      "AuthStrategyId": 1,
-                      "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                      "DisplayName": "No Further Authorization Required",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 1,
-                      "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                      "DisplayName": "No Further Authorization Required",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 1,
-                      "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                      "DisplayName": "No Further Authorization Required",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 1,
-                      "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                      "DisplayName": "No Further Authorization Required",
-                      "IsInheritedFromParent": true
-                    }
-                  ],
-                  "AuthStrategyOverridesForCRUD": [
-                    null,
-                    null,
-                    null,
-                    null
-                  ],
-                  "Children": []
-                }
-              ]
-            },
-            {
-              "Name": "people",
-              "Read": true,
-              "Create": false,
-              "Update": false,
-              "Delete": false,
-              "DefaultAuthStrategiesForCRUD": [
-                {
-                  "AuthStrategyId": 1,
-                  "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                  "DisplayName": "No Further Authorization Required",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 2,
-                  "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
-                  "DisplayName": "Relationships with Education Organizations and People",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 2,
-                  "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
-                  "DisplayName": "Relationships with Education Organizations and People",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 1,
-                  "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                  "DisplayName": "No Further Authorization Required",
-                  "IsInheritedFromParent": false
-                }
-              ],
-              "AuthStrategyOverridesForCRUD": [
-                null,
-                null,
-                null,
-                null
-              ],
-              "Children": []
-            },
-            {
-              "Name": "relationshipBasedData",
-              "Read": true,
-              "Create": false,
-              "Update": false,
-              "Delete": false,
-              "DefaultAuthStrategiesForCRUD": [
-                {
-                  "AuthStrategyId": 2,
-                  "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
-                  "DisplayName": "Relationships with Education Organizations and People",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 2,
-                  "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
-                  "DisplayName": "Relationships with Education Organizations and People",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 2,
-                  "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
-                  "DisplayName": "Relationships with Education Organizations and People",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 2,
-                  "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
-                  "DisplayName": "Relationships with Education Organizations and People",
-                  "IsInheritedFromParent": false
-                }
-              ],
-              "AuthStrategyOverridesForCRUD": [
-                null,
-                null,
-                null,
-                null
-              ],
-              "Children": []
-            },
-            {
-              "Name": "assessmentMetadata",
-              "Read": true,
-              "Create": false,
-              "Update": false,
-              "Delete": false,
-              "DefaultAuthStrategiesForCRUD": [
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                }
-              ],
-              "AuthStrategyOverridesForCRUD": [
-                null,
-                null,
-                null,
-                null
-              ],
-              "Children": []
-            },
-            {
-              "Name": "educationStandards",
-              "Read": true,
-              "Create": false,
-              "Update": false,
-              "Delete": false,
-              "DefaultAuthStrategiesForCRUD": [
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 1,
-                  "AuthStrategyName": "NoFurtherAuthorizationRequired",
-                  "DisplayName": "No Further Authorization Required",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                }
-              ],
-              "AuthStrategyOverridesForCRUD": [
-                null,
-                null,
-                null,
-                null
-              ],
-              "Children": []
-            },
-            {
-              "Name": "primaryRelationships",
-              "Read": true,
-              "Create": false,
-              "Update": false,
-              "Delete": false,
-              "DefaultAuthStrategiesForCRUD": [
-                {
-                  "AuthStrategyId": 3,
-                  "AuthStrategyName": "RelationshipsWithEdOrgsOnly",
-                  "DisplayName": "Relationships with Education Organizations only",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 2,
-                  "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
-                  "DisplayName": "Relationships with Education Organizations and People",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 2,
-                  "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
-                  "DisplayName": "Relationships with Education Organizations and People",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 2,
-                  "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
-                  "DisplayName": "Relationships with Education Organizations and People",
-                  "IsInheritedFromParent": false
-                }
-              ],
-              "AuthStrategyOverridesForCRUD": [
-                null,
-                null,
-                null,
-                null
-              ],
-              "Children": []
-            },
-            {
-              "Name": "educationContent",
-              "Read": true,
-              "Create": false,
-              "Update": false,
-              "Delete": false,
-              "DefaultAuthStrategiesForCRUD": [
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                }
-              ],
-              "AuthStrategyOverridesForCRUD": [
-                null,
-                null,
-                null,
-                null
-              ],
-              "Children": []
-            },
-            {
-              "Name": "surveyDomain",
-              "Read": true,
-              "Create": false,
-              "Update": false,
-              "Delete": false,
-              "DefaultAuthStrategiesForCRUD": [
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                },
-                {
-                  "AuthStrategyId": 4,
-                  "AuthStrategyName": "NamespaceBased",
-                  "DisplayName": "Namespace Based",
-                  "IsInheritedFromParent": false
-                }
-              ],
-              "AuthStrategyOverridesForCRUD": [
-                null,
-                null,
-                null,
-                null
-              ],
-              "Children": [
-                {
-                  "Name": "surveyResponse",
-                  "Read": true,
-                  "Create": false,
-                  "Update": false,
-                  "Delete": false,
-                  "DefaultAuthStrategiesForCRUD": [
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    }
-                  ],
-                  "AuthStrategyOverridesForCRUD": [
-                    null,
-                    null,
-                    null,
-                    null
-                  ],
-                  "Children": []
-                },
-                {
-                  "Name": "surveyQuestionResponse",
-                  "Read": true,
-                  "Create": false,
-                  "Update": false,
-                  "Delete": false,
-                  "DefaultAuthStrategiesForCRUD": [
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    }
-                  ],
-                  "AuthStrategyOverridesForCRUD": [
-                    null,
-                    null,
-                    null,
-                    null
-                  ],
-                  "Children": []
-                },
-                {
-                  "Name": "surveyQuestion",
-                  "Read": true,
-                  "Create": false,
-                  "Update": false,
-                  "Delete": false,
-                  "DefaultAuthStrategiesForCRUD": [
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    }
-                  ],
-                  "AuthStrategyOverridesForCRUD": [
-                    null,
-                    null,
-                    null,
-                    null
-                  ],
-                  "Children": []
-                },
-                {
-                  "Name": "survey",
-                  "Read": true,
-                  "Create": false,
-                  "Update": false,
-                  "Delete": false,
-                  "DefaultAuthStrategiesForCRUD": [
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    },
-                    {
-                      "AuthStrategyId": 4,
-                      "AuthStrategyName": "NamespaceBased",
-                      "DisplayName": "Namespace Based",
-                      "IsInheritedFromParent": true
-                    }
-                  ],
-                  "AuthStrategyOverridesForCRUD": [
-                    null,
-                    null,
-                    null,
-                    null
-                  ],
-                  "Children": []
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
+  "title": "Dagster",
+  "template": {
+    "claimSets": [
+      {
+        "name": "Dagster",
+        "resourceClaims": [
+          {
+            "Name": "types",
+            "Read": true,
+            "Create": false,
+            "Update": false,
+            "Delete": false,
+            "DefaultAuthStrategiesForCRUD": [
+              null,
+              {
+                "AuthStrategyId": 1,
+                "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                "DisplayName": "No Further Authorization Required",
+                "IsInheritedFromParent": false
+              },
+              null,
+              null
+            ],
+            "AuthStrategyOverridesForCRUD": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Children": []
+          },
+          {
+            "Name": "systemDescriptors",
+            "Read": true,
+            "Create": false,
+            "Update": false,
+            "Delete": false,
+            "DefaultAuthStrategiesForCRUD": [
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 1,
+                "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                "DisplayName": "No Further Authorization Required",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              }
+            ],
+            "AuthStrategyOverridesForCRUD": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Children": []
+          },
+          {
+            "Name": "managedDescriptors",
+            "Read": true,
+            "Create": false,
+            "Update": false,
+            "Delete": false,
+            "DefaultAuthStrategiesForCRUD": [
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 1,
+                "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                "DisplayName": "No Further Authorization Required",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              }
+            ],
+            "AuthStrategyOverridesForCRUD": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Children": [
+              {
+                "Name": "assessmentReportingMethodDescriptor",
+                "Read": true,
+                "Create": true,
+                "Update": true,
+                "Delete": false,
+                "DefaultAuthStrategiesForCRUD": [
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 1,
+                    "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                    "DisplayName": "No Further Authorization Required",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  }
+                ],
+                "AuthStrategyOverridesForCRUD": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "Children": []
+              },
+              {
+                "Name": "performanceLevelDescriptor",
+                "Read": true,
+                "Create": true,
+                "Update": true,
+                "Delete": false,
+                "DefaultAuthStrategiesForCRUD": [
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 1,
+                    "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                    "DisplayName": "No Further Authorization Required",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  }
+                ],
+                "AuthStrategyOverridesForCRUD": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "Children": []
+              }
+            ]
+          },
+          {
+            "Name": "educationOrganizations",
+            "Read": true,
+            "Create": false,
+            "Update": false,
+            "Delete": false,
+            "DefaultAuthStrategiesForCRUD": [
+              {
+                "AuthStrategyId": 1,
+                "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                "DisplayName": "No Further Authorization Required",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 1,
+                "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                "DisplayName": "No Further Authorization Required",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 1,
+                "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                "DisplayName": "No Further Authorization Required",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 1,
+                "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                "DisplayName": "No Further Authorization Required",
+                "IsInheritedFromParent": false
+              }
+            ],
+            "AuthStrategyOverridesForCRUD": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Children": [
+              {
+                "Name": "school",
+                "Read": true,
+                "Create": true,
+                "Update": true,
+                "Delete": true,
+                "DefaultAuthStrategiesForCRUD": [
+                  {
+                    "AuthStrategyId": 1,
+                    "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                    "DisplayName": "No Further Authorization Required",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 1,
+                    "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                    "DisplayName": "No Further Authorization Required",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 1,
+                    "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                    "DisplayName": "No Further Authorization Required",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 1,
+                    "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                    "DisplayName": "No Further Authorization Required",
+                    "IsInheritedFromParent": true
+                  }
+                ],
+                "AuthStrategyOverridesForCRUD": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "Children": []
+              },
+              {
+                "Name": "localEducationAgency",
+                "Read": true,
+                "Create": false,
+                "Update": true,
+                "Delete": false,
+                "DefaultAuthStrategiesForCRUD": [
+                  {
+                    "AuthStrategyId": 1,
+                    "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                    "DisplayName": "No Further Authorization Required",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 1,
+                    "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                    "DisplayName": "No Further Authorization Required",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 1,
+                    "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                    "DisplayName": "No Further Authorization Required",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 1,
+                    "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                    "DisplayName": "No Further Authorization Required",
+                    "IsInheritedFromParent": true
+                  }
+                ],
+                "AuthStrategyOverridesForCRUD": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "Children": []
+              }
+            ]
+          },
+          {
+            "Name": "people",
+            "Read": true,
+            "Create": false,
+            "Update": false,
+            "Delete": false,
+            "DefaultAuthStrategiesForCRUD": [
+              {
+                "AuthStrategyId": 1,
+                "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                "DisplayName": "No Further Authorization Required",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 2,
+                "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
+                "DisplayName": "Relationships with Education Organizations and People",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 2,
+                "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
+                "DisplayName": "Relationships with Education Organizations and People",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 1,
+                "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                "DisplayName": "No Further Authorization Required",
+                "IsInheritedFromParent": false
+              }
+            ],
+            "AuthStrategyOverridesForCRUD": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Children": []
+          },
+          {
+            "Name": "relationshipBasedData",
+            "Read": true,
+            "Create": false,
+            "Update": false,
+            "Delete": false,
+            "DefaultAuthStrategiesForCRUD": [
+              {
+                "AuthStrategyId": 2,
+                "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
+                "DisplayName": "Relationships with Education Organizations and People",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 2,
+                "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
+                "DisplayName": "Relationships with Education Organizations and People",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 2,
+                "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
+                "DisplayName": "Relationships with Education Organizations and People",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 2,
+                "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
+                "DisplayName": "Relationships with Education Organizations and People",
+                "IsInheritedFromParent": false
+              }
+            ],
+            "AuthStrategyOverridesForCRUD": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Children": []
+          },
+          {
+            "Name": "assessmentMetadata",
+            "Read": true,
+            "Create": true,
+            "Update": true,
+            "Delete": true,
+            "DefaultAuthStrategiesForCRUD": [
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              }
+            ],
+            "AuthStrategyOverridesForCRUD": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Children": []
+          },
+          {
+            "Name": "educationStandards",
+            "Read": true,
+            "Create": false,
+            "Update": false,
+            "Delete": false,
+            "DefaultAuthStrategiesForCRUD": [
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 1,
+                "AuthStrategyName": "NoFurtherAuthorizationRequired",
+                "DisplayName": "No Further Authorization Required",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              }
+            ],
+            "AuthStrategyOverridesForCRUD": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Children": []
+          },
+          {
+            "Name": "primaryRelationships",
+            "Read": true,
+            "Create": false,
+            "Update": false,
+            "Delete": false,
+            "DefaultAuthStrategiesForCRUD": [
+              {
+                "AuthStrategyId": 3,
+                "AuthStrategyName": "RelationshipsWithEdOrgsOnly",
+                "DisplayName": "Relationships with Education Organizations only",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 2,
+                "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
+                "DisplayName": "Relationships with Education Organizations and People",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 2,
+                "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
+                "DisplayName": "Relationships with Education Organizations and People",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 2,
+                "AuthStrategyName": "RelationshipsWithEdOrgsAndPeople",
+                "DisplayName": "Relationships with Education Organizations and People",
+                "IsInheritedFromParent": false
+              }
+            ],
+            "AuthStrategyOverridesForCRUD": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Children": []
+          },
+          {
+            "Name": "educationContent",
+            "Read": true,
+            "Create": false,
+            "Update": false,
+            "Delete": false,
+            "DefaultAuthStrategiesForCRUD": [
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              }
+            ],
+            "AuthStrategyOverridesForCRUD": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Children": []
+          },
+          {
+            "Name": "surveyDomain",
+            "Read": true,
+            "Create": false,
+            "Update": false,
+            "Delete": false,
+            "DefaultAuthStrategiesForCRUD": [
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              },
+              {
+                "AuthStrategyId": 4,
+                "AuthStrategyName": "NamespaceBased",
+                "DisplayName": "Namespace Based",
+                "IsInheritedFromParent": false
+              }
+            ],
+            "AuthStrategyOverridesForCRUD": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Children": [
+              {
+                "Name": "surveyResponse",
+                "Read": true,
+                "Create": false,
+                "Update": false,
+                "Delete": false,
+                "DefaultAuthStrategiesForCRUD": [
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  }
+                ],
+                "AuthStrategyOverridesForCRUD": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "Children": []
+              },
+              {
+                "Name": "surveyQuestionResponse",
+                "Read": true,
+                "Create": false,
+                "Update": false,
+                "Delete": false,
+                "DefaultAuthStrategiesForCRUD": [
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  }
+                ],
+                "AuthStrategyOverridesForCRUD": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "Children": []
+              },
+              {
+                "Name": "surveyQuestion",
+                "Read": true,
+                "Create": false,
+                "Update": false,
+                "Delete": false,
+                "DefaultAuthStrategiesForCRUD": [
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  }
+                ],
+                "AuthStrategyOverridesForCRUD": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "Children": []
+              },
+              {
+                "Name": "survey",
+                "Read": true,
+                "Create": false,
+                "Update": false,
+                "Delete": false,
+                "DefaultAuthStrategiesForCRUD": [
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  },
+                  {
+                    "AuthStrategyId": 4,
+                    "AuthStrategyName": "NamespaceBased",
+                    "DisplayName": "Namespace Based",
+                    "IsInheritedFromParent": true
+                  }
+                ],
+                "AuthStrategyOverridesForCRUD": [
+                  null,
+                  null,
+                  null,
+                  null
+                ],
+                "Children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
+}

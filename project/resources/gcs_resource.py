@@ -1,9 +1,11 @@
+import csv
 import json
 import uuid
 
 from dagster import get_dagster_logger
 from dagster import resource
-from google.cloud import storage
+from google.cloud import exceptions, storage
+import pandas as pd
 
 
 class GcsClient:
@@ -28,7 +30,37 @@ class GcsClient:
         self.log.info(f"Deleted {len(blobs)} files from {gcs_path}")
 
 
-    def load_data(self, table_name, school_year, records) -> str:
+    def upload_df(
+        self,
+        folder_name: str,
+        file_name: str,
+        df: pd.DataFrame) -> str:
+        """
+        Upload dataframe to GCS as CSV
+        and return GCS folder path.
+        """
+        try:
+            storage_client = storage.Client()
+            bucket = storage_client.get_bucket(self.staging_gcs_bucket)
+        except exceptions.NotFound:
+            self.log.error("Sorry, that bucket does not exist!")
+            raise
+
+        self.log.debug(f"Uploading {file_name} to gs://{self.staging_gcs_bucket}/{folder_name}")
+
+        bucket.blob(
+            f"{folder_name}/{file_name}").upload_from_string(
+                df.to_csv(
+                    index=False,
+                    quoting=csv.QUOTE_ALL
+                ),
+                content_type="text/csv",
+                num_retries=3)
+
+        return f"gs://{self.staging_gcs_bucket}/{folder_name}/{file_name}"
+
+
+    def upload_json(self, table_name, school_year, records) -> str:
         """
         Upload list of dictionaries to gcs
         as a JSON file.

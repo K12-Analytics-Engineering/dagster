@@ -5,14 +5,14 @@ from typing import List, Dict
 from dagster import get_dagster_logger
 from dagster import resource
 from google.cloud import bigquery
+import pandas as pd
 
 
 class BigQueryClient:
     """Class for loading data into BigQuery"""
 
-    def __init__(self, dataset, staging_gcs_bucket):
+    def __init__(self, dataset):
         self.dataset = dataset
-        self.staging_gcs_bucket = staging_gcs_bucket
         self.client = bigquery.Client()
         self._create_dataset()
         self.dataset_ref = bigquery.DatasetReference(self.client.project, self.dataset)
@@ -49,6 +49,20 @@ class BigQueryClient:
         return f"Created table {self.client.project}.{self.dataset}.{table_name}"
 
 
+    def download_table(self, table_reference: str) -> pd.DataFrame:
+        """
+        Download table and return the resulting QueryJob.
+        """
+        table = bigquery.TableReference.from_string(
+            f"{self.client.project}.{table_reference}")
+        rows = self.client.list_rows(table)
+        df = rows.to_dataframe(date_as_object=True)
+
+        self.log.info(f"Downloaded {len(df)} rows from table {table_reference}")
+
+        return df
+
+
     def run_query(self, query: str):
         """
         Run SQL query and return the resulting QueryJob.
@@ -60,8 +74,7 @@ class BigQueryClient:
 
 @resource(
     config_schema={
-        "dataset": str,
-        "staging_gcs_bucket": str,
+        "dataset": str
     },
     description="BigQuery client used to load data.",
 )
@@ -70,6 +83,5 @@ def bq_client(context):
     Initialize and return BigQueryClient()
     """
     return BigQueryClient(
-        context.resource_config["dataset"],
-        context.resource_config["staging_gcs_bucket"],
+        context.resource_config["dataset"]
     )

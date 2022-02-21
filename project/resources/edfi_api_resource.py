@@ -122,6 +122,38 @@ class EdFiApiClient:
                 offset = offset + limit
 
 
+    def post_data(
+        self,
+        records,
+        school_year: int,
+        api_endpoint: str) -> List:
+        """
+        Loop through payloads and POST
+        to passed in Ed-Fi API endpoint.
+        """
+        headers = { "Authorization": f"Bearer {self.access_token}" }
+        if self.api_mode == "YearSpecific":
+            endpoint = f"{self.base_url}/data/v3/{school_year}/{api_endpoint}"
+        else:
+            endpoint = f"{self.base_url}/data/v3/{api_endpoint}"
+
+        self.log.debug(endpoint)
+
+        generated_ids = list()
+        for record in records:
+            response = requests.post(
+                endpoint,
+                headers=headers,
+                json=record
+            )
+            response.raise_for_status()
+            self.log.debug(f"Successfully posted {response.headers['location']}")
+            generated_ids.append(response.headers['location'])
+
+        self.log.debug(generated_ids)
+        return generated_ids
+
+
 @resource(
     config_schema={
         "base_url": str,

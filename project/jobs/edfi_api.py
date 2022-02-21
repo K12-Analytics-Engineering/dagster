@@ -167,7 +167,6 @@ edfi_api_dev_job = edfi_api_to_amt.to_job(
             "staging_gcs_bucket": os.getenv("GCS_BUCKET_DEV")
         }),
         "warehouse": bq_client.configured({
-            "staging_gcs_bucket": os.getenv("GCS_BUCKET_DEV"),
             "dataset": "dev_staging"
         }),
         "dbt": dbt_cli_resource.configured({
