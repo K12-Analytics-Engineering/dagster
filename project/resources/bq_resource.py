@@ -29,31 +29,6 @@ class BigQueryClient:
         )
 
 
-    def create_table(self, table_name: str):
-        """
-        Create BigQuery external table using
-        source URIs created from the passed in GCS folder.
-        """
-        schema = [
-            bigquery.SchemaField("id", "STRING", "NULLABLE"),
-            bigquery.SchemaField("data", "STRING", "NULLABLE"),
-        ]
-        table_ref = bigquery.Table(self.dataset_ref.table(table_name), schema=schema)
-
-        external_config = bigquery.ExternalConfig("NEWLINE_DELIMITED_JSON")
-        external_config.source_uris = list()
-        for year in range(2018, 2031):
-            # ie. gs://storage-bucket/edfi_api/2022/edfi_calendars/*.json
-            external_config.source_uris.append(
-                f"gs://{self.staging_gcs_bucket}/edfi_api/{year}/{table_name}/*.json"
-            )
-
-        table_ref.external_data_configuration = external_config
-        table = self.client.create_table(table_ref, exists_ok=True)
-        self.client.close()
-        return f"Created table {table.project}.{table.dataset_id}.{table.table_id}"
-
-
     def append_data(self, table_name: str, schema: List, df) -> str:
         """
         Append data to BigQuery table using

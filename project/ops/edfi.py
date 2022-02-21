@@ -42,25 +42,6 @@ def api_endpoint_generator(
 
 
 @op(
-    description="Create tables in BigQuery to query data lake",
-    required_resource_keys={"warehouse"},
-    retry_policy=RetryPolicy(max_retries=3, delay=30),
-)
-def create_warehouse_raw_json_tables(context, edfi_api_endpoints: Dict) -> str:
-    """
-    Create a folder for each api endpoint
-    to store raw JSON.
-    """
-    for api_endpoint in edfi_api_endpoints:
-        result = context.resources.warehouse.create_table(
-            table_name=api_endpoint["table_name"]
-        )
-        context.log.info(result)
-
-    return "Created data warehouse tables"
-
-
-@op(
     description="Retrieves newest change version from Ed-Fi API",
     required_resource_keys={"edfi_api_client"},
     out=Out(Union[int, None]),
@@ -240,7 +221,7 @@ def extract_and_upload_data(
     required_resource_keys={"dbt"},
     tags={"kind": "transform"},
 )
-def run_edfi_models(context, retrieved_data, raw_tables_result) -> DbtCliOutput:
+def run_edfi_models(context, retrieved_data) -> DbtCliOutput:
     """
     Run all dbt models tagged with edfi
     and amt. Yield asset materializations
