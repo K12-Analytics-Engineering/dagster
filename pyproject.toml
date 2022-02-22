@@ -6,7 +6,7 @@ authors = ["Marcos Alcozer <marcos@alcozer.dev>"]
 license = "Apache License"
 
 [tool.poetry.dependencies]
-python = "3.9.10"
+python = "^3.9"
 requests = "^2.27.1"
 black = "^22.1.0"
 dagster = "^0.14.1"
