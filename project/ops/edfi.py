@@ -86,12 +86,13 @@ def append_newest_change_version(
     """
     if newest_change_version is not None:
         df = pd.DataFrame(
-            [[datetime.now().isoformat(), newest_change_version]],
+            [[datetime.now().isoformat(), str(newest_change_version)]],
             columns=["timestamp", "newest_change_version"],
         )
+        df["timestamp"] = pd.to_datetime(df["timestamp"])
         schema = [
             bigquery.SchemaField("timestamp", "TIMESTAMP", "REQUIRED"),
-            bigquery.SchemaField("newest_change_version", "INTEGER", "REQUIRED"),
+            bigquery.SchemaField("newest_change_version", "STRING", "REQUIRED"),
         ]
         table_name = "edfi_processed_change_versions"
 
