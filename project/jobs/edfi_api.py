@@ -51,8 +51,8 @@ def edfi_api_to_amt(edfi_api_endpoints, school_year, use_change_queries):
             )
     ).collect()
 
-    # dbt_run_result = run_edfi_models(retrieved_data)
-    # test_edfi_models(start_after=dbt_run_result)
+    dbt_run_result = run_edfi_models(retrieved_data)
+    test_edfi_models(start_after=dbt_run_result)
 
 
 edfi_api_endpoints = [
@@ -156,8 +156,8 @@ edfi_api_dev_job = edfi_api_to_amt.to_job(
             "base_url": os.getenv("EDFI_BASE_URL"),
             "api_key": os.getenv("EDFI_API_KEY"),
             "api_secret": os.getenv("EDFI_API_SECRET"),
-            "api_page_limit": 5000,
-            "api_mode": "DistrictSpecific" # DistrictSpecific, SharedInstance, YearSpecific
+            "api_page_limit": 100,
+            "api_mode": "SharedInstance" # DistrictSpecific, SharedInstance, YearSpecific
         }),
         "data_lake": gcs_client.configured({
             "staging_gcs_bucket": os.getenv("GCS_BUCKET_DEV")
