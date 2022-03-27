@@ -66,6 +66,7 @@ def get_newest_api_change_versions(context, school_year: int, use_change_queries
         path = context.resources.data_lake.upload_json(
             path=f"edfi_api/school_year_{school_year}/{launch_datetime}.json",
             records=[{
+                "school_year": school_year,
                 "run_id": context.run_id,
                 "oldest_change_version": response["OldestChangeVersion"],
                 "newest_change_version": response["NewestChangeVersion"]
@@ -97,13 +98,9 @@ def get_previous_change_version(context, school_year: int, use_change_queries: b
     context.log.info(f"Use change queries is set to {use_change_queries}")
     if use_change_queries:
         query = f"""
-            SELECT newest_change_version
+            SELECT MAX(newest_change_version) AS newest_change_version
             FROM `{{project_id}}.{{dataset}}.edfi_processed_change_versions`
-            WHERE
-                SchoolYear = {school_year}
-                AND timestamp < TIMESTAMP '{datetime.now().isoformat()}'
-            ORDER BY timestamp DESC
-            LIMIT 1
+            WHERE school_year = {school_year}
         """
         try:
             for row in context.resources.warehouse.run_query(query):
