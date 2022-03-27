@@ -199,13 +199,6 @@ def run_edfi_models(context, retrieved_data) -> DbtCliOutput:
 
         yield materialization
 
-    dbt_cli_amt_output = context.resources.dbt.run(models=["tag:marts"])
-    for materialization in generate_materializations(
-        dbt_cli_amt_output, asset_key_prefix=["marts"]
-    ):
-
-        yield materialization
-
     yield Output(dbt_cli_edfi_output)
 
 
