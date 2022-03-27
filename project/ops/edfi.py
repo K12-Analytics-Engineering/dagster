@@ -1,6 +1,7 @@
 import json
 
-from datetime import datetime
+from datetime import datetime, timedelta
+
 from typing import List, Dict, Optional, Union
 
 from dagster import (
@@ -155,7 +156,7 @@ def get_previous_change_version(context, school_year: int, use_change_queries: b
 
 @op(
     description="Retrieves data from the Ed-Fi API and uploads to data lake",
-    required_resource_keys={ "data_lake", "edfi_api_client" },
+    required_resource_keys={"data_lake", "edfi_api_client"},
     retry_policy=RetryPolicy(max_retries=3, delay=30),
     tags={"kind": "extract"},
 )
@@ -180,13 +181,10 @@ def extract_and_upload_data(
         version number returned from target Ed-Fi API.
     """
 
-    # if not using change queries, delete
-    # existing files in gcs
-    if use_change_queries is False:
-        context.resources.data_lake.delete_files(
-            gcs_path=f"edfi_api/{school_year}/{api_endpoint['table_name']}/"
-        )
+    stats = context.instance.event_log_storage.get_stats_for_run(context.run_id)
+    launch_datetime = datetime.utcfromtimestamp(stats.launch_time)
 
+    file_number = 1
     # process yielded records from generator
     for yielded_response in context.resources.edfi_api_client.get_data(
         api_endpoint["endpoint"],
@@ -198,20 +196,23 @@ def extract_and_upload_data(
         records_to_upload = list()
         # iterate through each payload
         for response in yielded_response:
-            response["extractedTimestamp"] = datetime.now().isoformat()
-
-            if "schoolYear" not in response:
-                response["schoolYear"] = school_year
-
-            records_to_upload.append({"id": None, "data": json.dumps(response)})
+            records_to_upload.append(
+                {
+                    "is_complete_extract": not use_change_queries,
+                    "data": json.dumps(response),
+                }
+            )
 
         # upload current set of records from generator
-        gcs_path = context.resources.data_lake.upload_json(
-            gcs_path = f"edfi_api/{school_year}/{api_endpoint['table_name']}/",
+        path = context.resources.data_lake.upload_json(
+            path=(
+                f"edfi_api/{api_endpoint['table_name']}/school_year={school_year}/"
+                f"date_extracted={launch_datetime}/{file_number:09}.json"
+            ),
             records=records_to_upload,
         )
-
-        context.log.debug(gcs_path)
+        file_number += 1
+        context.log.debug(path)
 
     return "Task complete"
 

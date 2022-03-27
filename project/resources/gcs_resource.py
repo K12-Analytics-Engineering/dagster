@@ -59,7 +59,7 @@ class GcsClient:
         return f"gs://{self.staging_gcs_bucket}/{folder_name}/{file_name}"
 
 
-    def upload_json(self, gcs_path, records) -> str:
+    def upload_json(self, path, records) -> str:
         """
         Upload list of dictionaries to gcs
         as a JSON file.
@@ -67,15 +67,14 @@ class GcsClient:
         storage_client = storage.Client()
         bucket = storage_client.get_bucket(self.staging_gcs_bucket)
 
-        gcs_file = f"{gcs_path}{str(uuid.uuid4())}.json"
         output = ""
         for record in records:
             output = output + json.dumps(record) + "\r\n"
 
-        bucket.blob(gcs_file).upload_from_string(
+        bucket.blob(path).upload_from_string(
             output, content_type="application/json", num_retries=3
         )
-        gcs_upload_path = f"gs://{self.staging_gcs_bucket}/{gcs_file}"
+        gcs_upload_path = f"gs://{self.staging_gcs_bucket}/{path}"
         self.log.debug(f"Uploaded JSON file to {gcs_upload_path}")
 
         return gcs_upload_path
