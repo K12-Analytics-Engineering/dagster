@@ -44,7 +44,7 @@ def api_endpoint_generator(
 
 @op(
     description="Retrieves newest change version from Ed-Fi API",
-    required_resource_keys={"edfi_api_client"},
+    required_resource_keys={"data_lake", "edfi_api_client"},
     out=Out(Union[int, None]),
     retry_policy=RetryPolicy(max_retries=3, delay=30),
     tags={"kind": "change_queries"},
@@ -53,63 +53,30 @@ def get_newest_api_change_versions(context, school_year: int, use_change_queries
     """
     If job is configured to use change queries, get
     the newest change version number from the target Ed-Fi API.
+    Upload data to data lake.
     """
     if use_change_queries:
+        stats = context.instance.event_log_storage.get_stats_for_run(context.run_id)
+        launch_datetime = datetime.utcfromtimestamp(stats.launch_time)
         response = context.resources.edfi_api_client.get_available_change_versions(
             school_year
         )
         context.log.debug(response)
+
+        path = context.resources.data_lake.upload_json(
+            path=f"edfi_api/school_year_{school_year}/{launch_datetime}.json",
+            records=[{
+                "run_id": context.run_id,
+                "oldest_change_version": response["OldestChangeVersion"],
+                "newest_change_version": response["NewestChangeVersion"]
+            }],
+        )
+        context.log.debug(path)
+
         return response["NewestChangeVersion"]
     else:
         context.log.info("Will not use change queries")
         return None
-
-
-@op(
-    description="Appends newest change version to BigQuery table",
-    required_resource_keys={"warehouse"},
-    out=Out(str, is_required=False),
-    retry_policy=RetryPolicy(max_retries=3, delay=30),
-    tags={"kind": "change_queries"},
-)
-def append_newest_change_version(
-    context, start_after, newest_change_version: Optional[int]
-):
-    """
-    Create a dataframe with two columns:
-    timestamp column using job's run timestamp and
-    newest change version. Call append_data() on
-    warehouse resource to append new record to table.
-
-    Args:
-        newest_change_version (bool): The latest change
-        version number returned from target Ed-Fi API.
-    """
-    if newest_change_version is not None:
-        df = pd.DataFrame(
-            [[datetime.now().isoformat(), str(newest_change_version)]],
-            columns=["timestamp", "newest_change_version"],
-        )
-        df["timestamp"] = pd.to_datetime(df["timestamp"])
-        schema = [
-            bigquery.SchemaField("timestamp", "TIMESTAMP", "REQUIRED"),
-            bigquery.SchemaField("newest_change_version", "STRING", "REQUIRED"),
-        ]
-        table_name = "edfi_processed_change_versions"
-
-        table = context.resources.warehouse.append_data(table_name, schema, df)
-
-        yield ExpectationResult(
-            success=table != None,
-            description="ensure table was created without failures",
-        )
-
-        yield AssetMaterialization(
-            asset_key=f"{context.resources.warehouse.dataset}.{table_name}",
-            description="Ed-Fi API data",
-        )
-
-        yield Output(table)
 
 
 @op(
