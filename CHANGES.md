@@ -1,5 +1,20 @@
 # Changelog
 
+
+# v0.6.0
+This release changes the folder structure of Google Cloud Storage. This release moves to a hive partitioning layout. In previous releases, when a job was run without using change queries, any existing files in GCS would be deleted. This release changes that and never deletes files in GCS. Instead dbt will query only the data that has been extracted since the most recent full extract.
+
+To update an existing implementation to this version, three things need to happen.
+
+* Delete the `edfi_api` folder in GCS
+* Run Dagster job without the dbt ops
+* Run the command below to recreate the BigQuery `base_` tables
+
+```bash
+dbt run-operation stage_external_sources --vars "ext_full_refresh: true";
+```
+
+
 # v0.5.3
 
 ### New

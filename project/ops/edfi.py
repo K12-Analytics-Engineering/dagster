@@ -5,10 +5,8 @@ from datetime import datetime, timedelta
 from typing import List, Dict, Optional, Union
 
 from dagster import (
-    AssetMaterialization,
     DynamicOut,
     DynamicOutput,
-    ExpectationResult,
     op,
     Out,
     Output,
@@ -17,8 +15,6 @@ from dagster import (
 from dagster_dbt.cli.types import DbtCliOutput
 from dagster_dbt.utils import generate_materializations
 
-import pandas as pd
-from google.cloud import bigquery
 from google.api_core import exceptions
 
 
@@ -35,11 +31,11 @@ def api_endpoint_generator(
     use change queries, do not output the /deletes version
     of each endpoint.
     """
-    for endpoint in edfi_api_endpoints:
-        if "/deletes" in endpoint["endpoint"] and not use_change_queries:
+    for api_endpoint in edfi_api_endpoints:
+        if "/deletes" in api_endpoint["endpoint"] and not use_change_queries:
             pass
         else:
-            yield DynamicOutput(value=endpoint, mapping_key=endpoint["table_name"])
+            yield DynamicOutput(value=api_endpoint, mapping_key=api_endpoint["endpoint"].replace("/ed-fi/", "").replace("/", "_"))
 
 
 @op(
@@ -157,12 +153,23 @@ def extract_and_upload_data(
         newest_change_version,
     ):
 
-        records_to_upload = list()
+        records_to_upload = [{}]
+        if "/deletes" in api_endpoint["endpoint"]:
+            extract_type = 'deletes'
+        else:
+            extract_type = 'records'
+
         # iterate through each payload
         for response in yielded_response:
+            if "/deletes" in api_endpoint["endpoint"]:
+                id = response["Id"].replace("-", "")
+            else:
+                id = response["id"]
+
             records_to_upload.append(
                 {
                     "is_complete_extract": not use_change_queries,
+                    "id": id,
                     "data": json.dumps(response),
                 }
             )
@@ -171,7 +178,8 @@ def extract_and_upload_data(
         path = context.resources.data_lake.upload_json(
             path=(
                 f"edfi_api/{api_endpoint['table_name']}/school_year={school_year}/"
-                f"date_extracted={launch_datetime}/{file_number:09}.json"
+                f"date_extracted={launch_datetime}/extract_type={extract_type}/"
+                f"{abs(hash(api_endpoint['endpoint']))}-{file_number:09}.json"
             ),
             records=records_to_upload,
         )
@@ -212,6 +220,6 @@ def test_edfi_models(context, start_after) -> DbtCliOutput:
     Test all dbt models tagged with edfi and amt.
     """
     dbt_cli_edfi_output = context.resources.dbt.test(
-        models=["tag:edfi", "tag:marts"], data=False, schema=False
+        models=["tag:edfi"], data=False, schema=False
     )
     return dbt_cli_edfi_output
