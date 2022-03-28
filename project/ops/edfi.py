@@ -164,7 +164,7 @@ def extract_and_upload_data(
             if "/deletes" in api_endpoint["endpoint"]:
                 id = response["Id"].replace("-", "")
             else:
-                id = response["id"]
+                id = response["id"].replace("-", "")
 
             records_to_upload.append(
                 {
