@@ -1,11 +1,9 @@
-from dagster import repository, ScheduleDefinition
+from dagster import repository
 
-from jobs.edfi_api import change_query_schedule, full_run_schedule
+from jobs.edfi_api import edfi_api_prod_job
+# from jobs.nwea_map import nwea_map_dev_job
 
 
 @repository
 def prod_repo():
-    return [
-        change_query_schedule,
-        full_run_schedule
-    ]
+    return [edfi_api_prod_job]

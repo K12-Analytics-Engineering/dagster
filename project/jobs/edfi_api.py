@@ -194,21 +194,28 @@ edfi_api_prod_job = edfi_api_to_amt.to_job(
             "base_url": os.getenv("EDFI_BASE_URL"),
             "api_key": os.getenv("EDFI_API_KEY"),
             "api_secret": os.getenv("EDFI_API_SECRET"),
-            "school_years": [2021, 2022] # empty list tells job to not include year in URL
+            "api_page_limit": 5000,
+            "api_mode": "YearSpecific" # DistrictSpecific, SharedInstance, YearSpecific
         }),
         "data_lake": gcs_client.configured({
             "staging_gcs_bucket": os.getenv("GCS_BUCKET_PROD")
         }),
         "warehouse": bq_client.configured({
-            "staging_gcs_bucket": os.getenv("GCS_BUCKET_PROD"),
-            "dataset": "prod_staging",
+            "dataset": "prod_staging"
         }),
         "dbt": dbt_cli_resource.configured({
             "project_dir": os.getenv("DBT_PROJECT_DIR"),
             "profiles_dir": os.getenv("DBT_PROFILES_DIR"),
             "target": "prod"
         })
-    }
+    },
+    config={
+        "inputs": {
+            "edfi_api_endpoints": { "value": edfi_api_endpoints },
+            "school_year": { "value": 2022 },
+            "use_change_queries": { "value": True }
+        }
+    },
 )
 
 @schedule(job=edfi_api_prod_job, cron_schedule="0 6 * * 7,1-5")
