@@ -78,7 +78,7 @@ gcloud sql databases create 'dagster' --instance=dagster;
 
 Build and push a Docker image to your Artifact Registry:
 ```sh
-gcloud builds submit --tag us-central1-docker.pkg.dev/<GOOGLE-PROJECT-ID>/dagster/dagster --project <GOOGLE-PROJECT-ID>;
+gcloud builds submit --config=cloudbuild.yaml;
 ```
 
 Create a Compute Engine VM from the new image:
