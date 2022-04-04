@@ -87,8 +87,8 @@ gcloud beta compute instances create-with-container dagster \
     --zone=us-central1-c \
     --machine-type=e2-medium \
     --provisioning-model=SPOT \
-    --container-image=us-central1-docker.pkg.dev/<GOOGLE-PROJECT-ID>/dagster/dagster \
-    --service-account=dagster@<GOOGLE-PROJECT-ID>.iam.gserviceaccount.com \
+    --container-image=us-central1-docker.pkg.dev/${GCP_PROJECT}/dagster/dagster \
+    --service-account=dagster@${GCP_PROJECT}.iam.gserviceaccount.com \
     --scopes=https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/trace.append,https://www.googleapis.com/auth/sqlservice.admin,https://www.googleapis.com/auth/devstorage.full_control \
     --container-restart-policy=always;
 ```
