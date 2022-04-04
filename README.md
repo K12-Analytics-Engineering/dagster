@@ -95,5 +95,5 @@ gcloud beta compute instances create-with-container dagster \
 
 To view Dagit, the command below should be run from Cloud Shell. This will SSH into the VM and forward the port.
 ```sh
-gcloud compute ssh --zone "us-central1-c" "dagster"  --project "<GOOGLE-PROJECT-ID>" -- -NL 8080:localhost:3000
+gcloud compute ssh --zone "us-central1-c" "dagster"  --project ${GOOGLE_CLOUD_PROJECT} -- -NL 8080:localhost:3000
 ```
