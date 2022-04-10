@@ -93,7 +93,6 @@ def get_previous_max_change_version(context, school_year: int, table_reference: 
     the target Ed-Fi API.
     """
     df = context.resources.warehouse.download_table(table_reference)
-
     try:
         previous_max_change_version = df.loc[df['school_year'] == school_year]['newest_change_version'].max()
     except:

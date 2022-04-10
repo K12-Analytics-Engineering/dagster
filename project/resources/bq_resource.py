@@ -52,14 +52,16 @@ class BigQueryClient:
     def download_table(self, table_reference: str) -> pd.DataFrame:
         """
         Download table and return the resulting QueryJob.
+        Returns empty dataframe if table not found or
+        table has no rows.
         """
         table = bigquery.TableReference.from_string(
             f"{self.client.project}.{table_reference}")
-        rows = self.client.list_rows(table)
 
-        if rows.total_rows > 0:
+        try:
+            rows = self.client.list_rows(table)
             df = rows.to_dataframe(date_as_object=True)
-        else:
+        except:
             df = pd.DataFrame()
 
         self.log.info(f"Downloaded {len(df)} rows from table {table_reference}")
