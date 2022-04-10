@@ -100,7 +100,7 @@ def get_previous_max_change_version(context, school_year: int, table_reference: 
     
     context.log.debug(f"Returning {previous_max_change_version} as previous max change version")
 
-    return previous_max_change_version
+    return int(previous_max_change_version)
 
 
 @op(

@@ -55,16 +55,14 @@ class BigQueryClient:
         Returns empty dataframe if table not found or
         table has no rows.
         """
-        table = bigquery.TableReference.from_string(
-            f"{self.client.project}.{table_reference}")
-
         try:
-            rows = self.client.list_rows(table)
-            df = rows.to_dataframe(date_as_object=True)
+            query_job = self.client.query(f"SELECT * FROM {self.client.project}.{table_reference}")
+            df = query_job.to_dataframe()
         except:
+            self.log.warn("Failed to download table. Returning empty dataframe.")
             df = pd.DataFrame()
 
-        self.log.info(f"Downloaded {len(df)} rows from table {table_reference}")
+        self.log.info(f"Downloaded {len(df)} rows from table {self.client.project}.{table_reference}")
 
         return df
 
