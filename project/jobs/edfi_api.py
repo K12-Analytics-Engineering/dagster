@@ -14,8 +14,8 @@ from dagster_gcp.gcs.resources import gcs_resource
 
 from ops.edfi import (
     api_endpoint_generator,
-    get_newest_api_change_versions,
-    get_previous_change_version,
+    get_current_max_change_version,
+    get_previous_max_change_version,
     extract_and_upload_data,
     run_edfi_models,
     test_edfi_models
@@ -36,8 +36,11 @@ from resources.gcs_resource import gcs_client
 )
 def edfi_api_to_marts(edfi_api_endpoints, school_year, use_change_queries):
 
-    previous_change_version = get_previous_change_version(school_year, use_change_queries)
-    newest_change_version = get_newest_api_change_versions(school_year, use_change_queries)
+    previous_max_change_version = get_previous_max_change_version(school_year)
+    newest_max_change_version = get_current_max_change_version(
+        start_after=previous_max_change_version,
+        school_year=school_year,
+        use_change_queries=use_change_queries)
 
     retrieved_data = api_endpoint_generator(
         edfi_api_endpoints=edfi_api_endpoints,
@@ -45,8 +48,8 @@ def edfi_api_to_marts(edfi_api_endpoints, school_year, use_change_queries):
             lambda api_endpoint: extract_and_upload_data(
                 api_endpoint=api_endpoint,
                 school_year=school_year,
-                previous_change_version=previous_change_version,
-                newest_change_version=newest_change_version,
+                previous_change_version=previous_max_change_version,
+                newest_change_version=newest_max_change_version,
                 use_change_queries=use_change_queries
             )
     ).collect()
@@ -176,6 +179,13 @@ edfi_api_dev_job = edfi_api_to_marts.to_job(
             "edfi_api_endpoints": { "value": edfi_api_endpoints },
             "school_year": { "value": 2022 },
             "use_change_queries": { "value": True }
+        },
+        "ops": {
+            "get_previous_max_change_version": {
+                "inputs": {
+                    "table_reference": "dev_staging.edfi_processed_change_versions"
+                }
+            },
         }
     },
 )
@@ -214,6 +224,13 @@ edfi_api_prod_job = edfi_api_to_marts.to_job(
             "edfi_api_endpoints": { "value": edfi_api_endpoints },
             "school_year": { "value": 2022 },
             "use_change_queries": { "value": True }
+        },
+        "ops": {
+            "get_previous_max_change_version": {
+                "inputs": {
+                    "table_reference": "prod_staging.edfi_processed_change_versions"
+                }
+            },
         }
     },
 )

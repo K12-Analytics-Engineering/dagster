@@ -56,7 +56,11 @@ class BigQueryClient:
         table = bigquery.TableReference.from_string(
             f"{self.client.project}.{table_reference}")
         rows = self.client.list_rows(table)
-        df = rows.to_dataframe(date_as_object=True)
+
+        if rows.total_rows > 0:
+            df = rows.to_dataframe(date_as_object=True)
+        else:
+            df = pd.DataFrame()
 
         self.log.info(f"Downloaded {len(df)} rows from table {table_reference}")
 

@@ -1,4 +1,5 @@
 import json
+import math
 
 from datetime import datetime, timedelta
 
@@ -45,7 +46,7 @@ def api_endpoint_generator(
     retry_policy=RetryPolicy(max_retries=3, delay=30),
     tags={"kind": "change_queries"},
 )
-def get_newest_api_change_versions(context, school_year: int, use_change_queries: bool):
+def get_current_max_change_version(context, start_after, school_year: int, use_change_queries: bool):
     """
     If job is configured to use change queries, get
     the newest change version number from the target Ed-Fi API.
@@ -83,35 +84,24 @@ def get_newest_api_change_versions(context, school_year: int, use_change_queries
     retry_policy=RetryPolicy(max_retries=3, delay=30),
     tags={"kind": "change_queries"},
 )
-def get_previous_change_version(context, school_year: int, use_change_queries: bool):
+def get_previous_max_change_version(context, school_year: int, table_reference: str):
     """
-    Run SQL query on table edfi_processed_change_versions
+    Gets results of edfi_processed_change_versions table
     to retrieve the change version number from the
     previous job run. If no data is returned, return -1.
     This will cause the extract step to pull all data from
     the target Ed-Fi API.
     """
-    context.log.info(f"Use change queries is set to {use_change_queries}")
-    if use_change_queries:
-        query = f"""
-            SELECT MAX(newest_change_version) AS newest_change_version
-            FROM `{{project_id}}.{{dataset}}.edfi_processed_change_versions`
-            WHERE school_year = {school_year}
-        """
-        try:
-            for row in context.resources.warehouse.run_query(query):
-                previous_change_version = row["newest_change_version"]
-                context.log.debug(
-                    f"Latest processed change version: {previous_change_version}"
-                )
-                return previous_change_version
-        except exceptions.NotFound as err:
-            context.log.debug(err)
-            context.log.debug("Failed to query table. Table not found.")
-            context.log.debug("Returning -1 as latest processed change version")
-            return -1
-    else:
-        return None
+    df = context.resources.warehouse.download_table(table_reference)
+
+    try:
+        previous_max_change_version = df.loc[df['school_year'] == school_year]['newest_change_version'].max()
+    except:
+        previous_max_change_version = -1
+    
+    context.log.debug(f"Returning {previous_max_change_version} as previous max change version")
+
+    return previous_max_change_version
 
 
 @op(
