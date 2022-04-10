@@ -26,7 +26,7 @@ from resources.gcs_resource import gcs_client
 
 
 @graph(
-    name="edfi_api_to_amt",
+    name="edfi_api_to_marts",
     description=(
         "Gets data from the Ed-Fi API and "
         "loads to Google Cloud Storage. Runs dbt "
@@ -34,7 +34,7 @@ from resources.gcs_resource import gcs_client
         "in BigQuery."
     )
 )
-def edfi_api_to_amt(edfi_api_endpoints, school_year, use_change_queries):
+def edfi_api_to_marts(edfi_api_endpoints, school_year, use_change_queries):
 
     previous_change_version = get_previous_change_version(school_year, use_change_queries)
     newest_change_version = get_newest_api_change_versions(school_year, use_change_queries)
@@ -145,7 +145,7 @@ edfi_api_endpoints = [
     {"endpoint": "/ed-fi/raceDescriptors/deletes", "table_name": "base_edfi_descriptors"}
 ]
 
-edfi_api_dev_job = edfi_api_to_amt.to_job(
+edfi_api_dev_job = edfi_api_to_marts.to_job(
     executor_def=multiprocess_executor.configured({
         "max_concurrent": 8
     }),
@@ -180,7 +180,7 @@ edfi_api_dev_job = edfi_api_to_amt.to_job(
     },
 )
 
-edfi_api_prod_job = edfi_api_to_amt.to_job(
+edfi_api_prod_job = edfi_api_to_marts.to_job(
     executor_def=multiprocess_executor.configured({
         "max_concurrent": 8
     }),

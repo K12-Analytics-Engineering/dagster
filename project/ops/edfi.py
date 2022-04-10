@@ -154,10 +154,7 @@ def extract_and_upload_data(
     ):
 
         records_to_upload = [{}]
-        if "/deletes" in api_endpoint["endpoint"]:
-            extract_type = 'deletes'
-        else:
-            extract_type = 'records'
+        extract_type = "/deletes" if "/deletes" in api_endpoint["endpoint"] else "records"
 
         # iterate through each payload
         for response in yielded_response:
