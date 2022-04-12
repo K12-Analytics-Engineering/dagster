@@ -35,13 +35,13 @@ Create a Google Cloud Storage bucket that will be used to house the JSON data re
 
 
 ## Development Environment
-After you clone this repo, poetry can be used to create a python virtual environment with all dependencies installed.
+This Dagster workspace has been tested on a Mac and on a PC running Ubuntu via WSL2. Setup guides have been created for [Mac](https://github.com/K12-Analytics-Engineering/bootcamp/blob/main/docs/mac_setup_guide.md) and [Windows](https://github.com/K12-Analytics-Engineering/bootcamp/blob/main/docs/pc_setup_guide.md). After you clone this repo, poetry can be used to create a python virtual environment with all dependencies installed.
 
 ```bash
 
 poetry env use 3.9;
 poetry install;
-env $(cat .env) poetry shell;
+poetry shell;
 dagit -w workspace.yaml;
 
 ```
