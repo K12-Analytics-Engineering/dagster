@@ -97,3 +97,9 @@ To view Dagit, the command below should be run from Cloud Shell. This will SSH i
 ```sh
 gcloud compute ssh --zone "us-central1-c" "dagster"  --project ${GOOGLE_CLOUD_PROJECT} -- -NL 8080:localhost:3000
 ```
+
+Update GCE to use a new image
+```sh
+gcloud compute ssh dagster --command 'docker system prune -f -a'
+gcloud compute instances update-container dagster --zone us-central1-c --container-image us-central1-docker.pkg.dev/${GOOGLE_CLOUD_PROJECT}/dagster/dagster --project ${GOOGLE_CLOUD_PROJECT};
+```
