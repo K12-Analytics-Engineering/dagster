@@ -41,7 +41,8 @@ This Dagster workspace has been tested on a Mac and on a PC running Ubuntu via W
 
 poetry env use 3.9;
 poetry install;
-poetry shell;
+poetry shell;  #windows
+env $(cat .env) poetry shell; # mac
 dagit -w workspace.yaml;
 
 ```
