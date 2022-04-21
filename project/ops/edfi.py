@@ -94,13 +94,13 @@ def get_previous_max_change_version(context, school_year: int, table_reference: 
     """
     df = context.resources.warehouse.download_table(table_reference)
     try:
-        previous_max_change_version = df.loc[df['school_year'] == school_year]['newest_change_version'].max()
+        previous_max_change_version = int(df.loc[df['school_year'] == school_year]['newest_change_version'].max())
     except:
         previous_max_change_version = -1
     
     context.log.debug(f"Returning {previous_max_change_version} as previous max change version")
 
-    return int(previous_max_change_version)
+    return previous_max_change_version
 
 
 @op(
