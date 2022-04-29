@@ -160,7 +160,8 @@ edfi_api_dev_job = edfi_api_to_marts.to_job(
             "api_key": os.getenv("EDFI_API_KEY"),
             "api_secret": os.getenv("EDFI_API_SECRET"),
             "api_page_limit": 5000,
-            "api_mode": "YearSpecific" # DistrictSpecific, SharedInstance, YearSpecific
+            "api_mode": "YearSpecific", # DistrictSpecific, SharedInstance, YearSpecific
+            "api_version": "5.3"
         }),
         "data_lake": gcs_client.configured({
             "staging_gcs_bucket": os.getenv("GCS_BUCKET_DEV")
@@ -182,7 +183,7 @@ edfi_api_dev_job = edfi_api_to_marts.to_job(
         },
         "ops": {
             "get_previous_max_change_version": {
-                "inputs": {
+                "config": {
                     "table_reference": "dev_staging.edfi_processed_change_versions"
                 }
             },
@@ -227,7 +228,7 @@ edfi_api_prod_job = edfi_api_to_marts.to_job(
         },
         "ops": {
             "get_previous_max_change_version": {
-                "inputs": {
+                "config": {
                     "table_reference": "prod_staging.edfi_processed_change_versions"
                 }
             },

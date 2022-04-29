@@ -84,7 +84,7 @@ def get_current_max_change_version(context, start_after, school_year: int, use_c
     retry_policy=RetryPolicy(max_retries=3, delay=30),
     tags={"kind": "change_queries"},
 )
-def get_previous_max_change_version(context, school_year: int, table_reference: str):
+def get_previous_max_change_version(context, school_year: int):
     """
     Gets results of edfi_processed_change_versions table
     to retrieve the change version number from the
@@ -92,7 +92,7 @@ def get_previous_max_change_version(context, school_year: int, table_reference: 
     This will cause the extract step to pull all data from
     the target Ed-Fi API.
     """
-    df = context.resources.warehouse.download_table(table_reference)
+    df = context.resources.warehouse.download_table(context.op_config["table_reference"])
     try:
         previous_max_change_version = int(df.loc[df['school_year'] == school_year]['newest_change_version'].max())
     except:
@@ -163,7 +163,8 @@ def extract_and_upload_data(
         # upload current set of records from generator
         path = context.resources.data_lake.upload_json(
             path=(
-                f"edfi_api/{api_endpoint['table_name']}/school_year={school_year}/"
+                f"edfi_api/{api_endpoint['table_name']}/api_version={context.resources.edfi_api_client.api_version}/"
+                f"school_year={school_year}/"
                 f"date_extracted={launch_datetime}/extract_type={extract_type}/"
                 f"{abs(hash(api_endpoint['endpoint']))}-{file_number:09}.json"
             ),
