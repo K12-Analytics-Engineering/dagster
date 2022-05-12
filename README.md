@@ -101,6 +101,6 @@ gcloud compute ssh --zone "us-central1-c" "dagster"  --project ${GOOGLE_CLOUD_PR
 
 Update GCE to use a new image
 ```sh
-gcloud compute ssh dagster --command 'docker system prune -f -a'
+gcloud compute ssh dagster --command 'docker system prune -f -a';
 gcloud compute instances update-container dagster --zone us-central1-c --container-image us-central1-docker.pkg.dev/${GOOGLE_CLOUD_PROJECT}/dagster/dagster --project ${GOOGLE_CLOUD_PROJECT};
 ```
