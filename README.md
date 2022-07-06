@@ -38,7 +38,7 @@ Let's take a detour and configure your Google Cloud environment now.
 ## Google Cloud Configuration
 Create a Google Cloud Platform (GCP) project and set the following variables in your `.env` file:
 
-* `GCP_PROJECT` to the Google Cloud project ID
+* `GOOGLE_CLOUD_PROJECT` to the Google Cloud project ID
 * `EDFI_BASE_URL` to your Ed-Fi API base URL
 * `EDFI_API_KEY` to your Ed-Fi API key
 * `EDFI_API_SECRET` to your Ed-Fi API secret
@@ -47,13 +47,13 @@ Create a Google Cloud Platform (GCP) project and set the following variables in 
 * `PYTHONPATH` to the project folder in your dagster folder
 
 > **Note**
-> If your machine is setup correctly, the `.env` should automatically be read into your environment when you `cd` into the dagster directory. `cd` into the dagster folder and run `echo $GCP_PROJECT`. If your Google Cloud project ID does not print to the terminal, stop and troubleshoot.
+> If your machine is setup correctly, the `.env` should automatically be read into your environment when you `cd` into the dagster directory. `cd` into the dagster folder and run `echo $GOOGLE_CLOUD_PROJECT`. If your Google Cloud project ID does not print to the terminal, stop and troubleshoot.
 
 ### Enable APIs
 Run the commands below to enable the APIs necessary for this repository.
 
 ```sh
-gcloud config set project $GCP_PROJECT;
+gcloud config set project $GOOGLE_CLOUD_PROJECT;
 gcloud config set compute/region us-central1;
 
 gcloud services enable artifactregistry.googleapis.com;
@@ -69,26 +69,26 @@ gcloud services enable iamcredentials.googleapis.com;
 Authentication with the GCP project happens through a service account. The commands below will create a service account and download a JSON key. This service account will also be used via Workload Identity when deployed in production on GKE.
 
 ```sh
-gcloud config set project $GCP_PROJECT;
+gcloud config set project $GOOGLE_CLOUD_PROJECT;
 gcloud iam service-accounts create dagster \
   --display-name="dagster";
 
 export SA_EMAIL=`gcloud iam service-accounts list --format='value(email)' \
   --filter='displayName:dagster'`
 
-gcloud projects add-iam-policy-binding $GCP_PROJECT \
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
   --member serviceAccount:$SA_EMAIL \
   --role roles/bigquery.jobUser;
 
-gcloud projects add-iam-policy-binding $GCP_PROJECT \
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
   --member serviceAccount:$SA_EMAIL \
   --role roles/bigquery.user;
 
-gcloud projects add-iam-policy-binding $GCP_PROJECT \
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
   --member serviceAccount:$SA_EMAIL \
   --role roles/bigquery.dataEditor;
 
-gcloud projects add-iam-policy-binding $GCP_PROJECT \
+gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
   --member serviceAccount:$SA_EMAIL \
   --role roles/storage.admin;
 
@@ -96,15 +96,15 @@ gcloud iam service-accounts keys create service.json \
     --iam-account=$SA_EMAIL;
 ```
 
-Rename the JSON key to _service.json_ and store in the root of the repository. Set the `GOOGLE_APPLICATION_CREDENTIALS` variable in your `.env` file to point to your service account JSON file.
+Store the downloaded JSON file in the root of the repository. Set the `GOOGLE_APPLICATION_CREDENTIALS` variable in your `.env` file to point to your service account JSON file.
 
 
 ### Google Cloud Storage
 Google Cloud Storage will be used to house the JSON data retrieved from the target Ed-Fi API. Create two buckets:
 
 ```sh
-gsutil mb "gs://dagster-dev-${GCP_PROJECT}";
-gsutil mb "gs://dagster-prod-${GCP_PROJECT}";
+gsutil mb "gs://dagster-dev-${GOOGLE_CLOUD_PROJECT}";
+gsutil mb "gs://dagster-prod-${GOOGLE_CLOUD_PROJECT}";
 ```
 
 Set the `GCS_BUCKET_DEV` and `GCS_BUCKET_PROD` variables to the newly created bucket names.
