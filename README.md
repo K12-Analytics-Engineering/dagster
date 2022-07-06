@@ -5,18 +5,40 @@ This repository contains various Dagster ELT jobs.
 * [NWEA MAP API to Ed-Fi API](./docs/nwea_map.md)
 * [Google Forms API to Ed-Fi API](./docs/google_forms.md)
 
-At the root of this repo is a `.env-sample` file. Copy the file to create a `.env` file. Complete the following missing values:
 
-* `EDFI_BASE_URL`
-* `EDFI_API_KEY`
-* `EDFI_API_SECRET`
+![Data stack](/assets/k12_data_stack.png)
 
-You will complete the other missing values in the steps below.
+The Dagster code that you likely came here for is the code that moves data from an Ed-Fi API into Google Cloud Storage and from there materializes the data into various data marts in Google BigQuery. This is a common ELT architecture where raw data is extracted from a source system and stored in a data lake (extract and load). From there transformation happens to turn that data into datasets built out for use in analytics.
 
-## Google Cloud Configuration
+> **Note**
+> The Ed-Fi Data Standard is well defined and used across many organizations. This is done to provide vendors with a common API surface for which to build API clients against. Analytics is different. Analytics is more personal. This code is meant to provide you with a strong foundational layer for your analytics layer. You **should** modify the dbt data models to allow for your dims and facts to represent your context. This is not a plug and play piece of software. You are expected to learn python and SQL, and modify this code.
+
+## Development Environment
+Let's start by running Dagster locally on your machine. This is referred to as your `dev` environment. This is where you can make changes to the code and iterate quickly. Once you have a version of the code that's working well, that gets run in production and that's what your reports and dashboards are built from.
+
+This Dagster code has been tested on a Mac and on a PC running Ubuntu via WSL2. Setup guides have been created for [Mac](https://github.com/K12-Analytics-Engineering/bootcamp/blob/main/docs/mac_setup_guide.md) and [Windows](https://github.com/K12-Analytics-Engineering/bootcamp/blob/main/docs/pc_setup_guide.md). These setup guides are meant to be opinionated to ensure that you're set up with a development workflow that doesn't hinder your ability to write code and iterate quickly.
+
+The dagster and dbt repositories in this GitHub organization are meant to be used together. Click the *Use this template* button on both repositories to make a copy into your personal GitHub and clone both to your local machine.
+
+```
+├── code_folder
+│   ├── dagster
+|   |   |
+|   |   └── ...
+│   ├── dbt
+|   |   |
+|   |   └── ...
+│   └── ...
+```
+
+At the root of both the dagster and dbt repos is a `.env-sample` file. Copy the file to create a `.env` file. In the sections below, you will be asked to complete specific values in the `.env` files.
+
+Let's take a detour and configure your Google Cloud environment now.
+
+### Google Cloud Configuration
 Create a Google Cloud Platform (GCP) project and set the `GCP_PROJECT` variable to the Google Cloud project ID.
 
-### Service Account
+#### Service Account
 Authentication with the GCP project happens through a service account. In GCP, head to _IAM & Admin --> Service Accounts_ to create your service account.
 
 * Click **Create Service Account**
@@ -33,18 +55,23 @@ Authentication with the GCP project happens through a service account. In GCP, h
 ### Google Cloud Storage
 Create a Google Cloud Storage bucket that will be used to house the JSON data retrieved from the target Ed-Fi API. In GCP, head to _Cloud Storage_ and click **Create Bucket**. Once created, set the `GCS_BUCKET_DEV` variable to the newly created bucket's name (ie. dagster-dev-123).
 
+After you've run through the setup guides linked above and cloned the repos, poetry can be used to create a python virtual environment with all dependencies installed.
 
-## Development Environment
-This Dagster workspace has been tested on a Mac and on a PC running Ubuntu via WSL2. Setup guides have been created for [Mac](https://github.com/K12-Analytics-Engineering/bootcamp/blob/main/docs/mac_setup_guide.md) and [Windows](https://github.com/K12-Analytics-Engineering/bootcamp/blob/main/docs/pc_setup_guide.md). After you clone this repo, poetry can be used to create a python virtual environment with all dependencies installed.
+
+
+* `EDFI_BASE_URL`
+* `EDFI_API_KEY`
+* `EDFI_API_SECRET`
+
+You will complete the other missing values in the steps below.
 
 ```bash
-
+# do this in both your dagster and dbt folders
 poetry env use 3.9;
 poetry install;
 poetry shell;  #windows
 env $(cat .env) poetry shell; # mac
 dagit -w workspace.yaml;
-
 ```
 
 
