@@ -35,99 +35,95 @@ At the root of both the dagster and dbt repos is a `.env-sample` file. Copy the 
 
 Let's take a detour and configure your Google Cloud environment now.
 
-### Google Cloud Configuration
-Create a Google Cloud Platform (GCP) project and set the `GCP_PROJECT` variable to the Google Cloud project ID.
+## Google Cloud Configuration
+Create a Google Cloud Platform (GCP) project and set the following variables in your `.env` file:
 
-#### Service Account
-Authentication with the GCP project happens through a service account. In GCP, head to _IAM & Admin --> Service Accounts_ to create your service account.
+* `GCP_PROJECT` to the Google Cloud project ID
+* `EDFI_BASE_URL` to your Ed-Fi API base URL
+* `EDFI_API_KEY` to your Ed-Fi API key
+* `EDFI_API_SECRET` to your Ed-Fi API secret
+* `DBT_PROFILES_DIR` to the base path of your dbt folder
+* `DBT_PROJECT_DIR` to the base path of your dbt folder
+* `PYTHONPATH` to the project folder in your dagster folder
 
-* Click **Create Service Account**
-* Choose a name (ie. dagster) and click **Create**
-* Grant the service account the following roles
-    * BigQuery Job User
-    * BigQuery User
-    * BigQuery Data Editor
-    * Storage Admin
-* Click **Done** 
-* Select the actions menu and click **Create key**. Create a JSON key, rename to _service.json_ and store in the root of the repository.
+> **Note**
+> If your machine is setup correctly, the `.env` should automatically be read into your environment when you `cd` into the dagster directory. `cd` into the dagster folder and run `echo $GCP_PROJECT`. If your Google Cloud project ID does not print to the terminal, stop and troubleshoot.
+
+### Enable APIs
+Run the commands below to enable the APIs necessary for this repository.
+
+```sh
+gcloud config set project $GCP_PROJECT;
+gcloud config set compute/region us-central1;
+
+gcloud services enable artifactregistry.googleapis.com;
+gcloud services enable cloudbuild.googleapis.com;
+gcloud services enable compute.googleapis.com;
+gcloud services enable container.googleapis.com;
+gcloud services enable servicenetworking.googleapis.com;
+gcloud services enable sqladmin.googleapis.com;
+gcloud services enable iamcredentials.googleapis.com;
+```
+
+### Service Account
+Authentication with the GCP project happens through a service account. The commands below will create a service account and download a JSON key. This service account will also be used via Workload Identity when deployed in production on GKE.
+
+```sh
+gcloud config set project $GCP_PROJECT;
+gcloud iam service-accounts create dagster \
+  --display-name="dagster";
+
+export SA_EMAIL=`gcloud iam service-accounts list --format='value(email)' \
+  --filter='displayName:dagster'`
+
+gcloud projects add-iam-policy-binding $GCP_PROJECT \
+  --member serviceAccount:$SA_EMAIL \
+  --role roles/bigquery.jobUser;
+
+gcloud projects add-iam-policy-binding $GCP_PROJECT \
+  --member serviceAccount:$SA_EMAIL \
+  --role roles/bigquery.user;
+
+gcloud projects add-iam-policy-binding $GCP_PROJECT \
+  --member serviceAccount:$SA_EMAIL \
+  --role roles/bigquery.dataEditor;
+
+gcloud projects add-iam-policy-binding $GCP_PROJECT \
+  --member serviceAccount:$SA_EMAIL \
+  --role roles/storage.admin;
+
+gcloud iam service-accounts keys create service.json \
+    --iam-account=$SA_EMAIL;
+```
+
+Rename the JSON key to _service.json_ and store in the root of the repository. Set the `GOOGLE_APPLICATION_CREDENTIALS` variable in your `.env` file to point to your service account JSON file.
 
 
 ### Google Cloud Storage
-Create a Google Cloud Storage bucket that will be used to house the JSON data retrieved from the target Ed-Fi API. In GCP, head to _Cloud Storage_ and click **Create Bucket**. Once created, set the `GCS_BUCKET_DEV` variable to the newly created bucket's name (ie. dagster-dev-123).
+Google Cloud Storage will be used to house the JSON data retrieved from the target Ed-Fi API. Create two buckets:
 
-After you've run through the setup guides linked above and cloned the repos, poetry can be used to create a python virtual environment with all dependencies installed.
+```sh
+gsutil mb "gs://dagster-dev-${GCP_PROJECT}";
+gsutil mb "gs://dagster-prod-${GCP_PROJECT}";
+```
 
+Set the `GCS_BUCKET_DEV` and `GCS_BUCKET_PROD` variables to the newly created bucket names.
 
+You should now have all variables completed in the `.env` files in both your dagster and dbt folders.
 
-* `EDFI_BASE_URL`
-* `EDFI_API_KEY`
-* `EDFI_API_SECRET`
-
-You will complete the other missing values in the steps below.
-
+The setup guides recommend using poetry to manage your python virtual environments.
 ```bash
 # do this in both your dagster and dbt folders
 poetry env use 3.9;
 poetry install;
-poetry shell;  #windows
-env $(cat .env) poetry shell; # mac
+```
+
+> **Note**
+> If your machine is setup correctly, when you `cd` into the dagster folder, your python virtual environment should automatically be loaded and your `.env` file should automatically be read into your environment. If that does not happen, stop and troubleshoot.
+
+You should now be able to launch dagit via the command below.
+```bash
 dagit -w workspace.yaml;
 ```
 
 
-## Production
-The deployment strategy currently being explored for production runs is to use a Google Compute Engine VM for the Dagster daemon and dagit, and a Cloud SQL instance running PostgreSQL for the metadata storage. Specifics and pricing can be seen [here](https://github.com/K12-Analytics-Engineering/bootcamp/blob/main/docs/implementation_choices_and_cost.md).
-
-Enable Artifact Registry and create a repository:
-```sh
-gcloud services enable artifactregistry.googleapis.com;
-
-gcloud artifacts repositories create dagster \
-    --repository-format=docker \
-    --location=us-central1;
-```
-
-Add your dbt repo as a git submodule:
-```sh
-git submodule add https://github.com/K12-Analytics-Engineering/dbt.git dbt;
-```
-
-Create a Cloud SQL instance with a dagster database:
-```sh
-gcloud beta sql instances create \
-    --zone us-central1-c \
-    --database-version POSTGRES_13 \
-    --tier db-f1-micro \
-    --storage-auto-increase \
-    --backup-start-time 08:00 dagster;
-
-gcloud sql databases create 'dagster' --instance=dagster;
-```
-
-Build and push a Docker image to your Artifact Registry:
-```sh
-gcloud builds submit --config=cloudbuild.yaml;
-```
-
-Create a Compute Engine VM from the new image:
-```sh
-gcloud beta compute instances create-with-container dagster \
-    --zone=us-central1-c \
-    --machine-type=e2-medium \
-    --provisioning-model=SPOT \
-    --container-image=us-central1-docker.pkg.dev/${GCP_PROJECT}/dagster/dagster \
-    --service-account=dagster@${GCP_PROJECT}.iam.gserviceaccount.com \
-    --scopes=https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/trace.append,https://www.googleapis.com/auth/sqlservice.admin,https://www.googleapis.com/auth/devstorage.full_control \
-    --container-restart-policy=always;
-```
-
-To view Dagit, the command below should be run from Cloud Shell. This will SSH into the VM and forward the port.
-```sh
-gcloud compute ssh --zone "us-central1-c" "dagster"  --project ${GOOGLE_CLOUD_PROJECT} -- -NL 8080:localhost:3000
-```
-
-Update GCE to use a new image
-```sh
-gcloud compute ssh dagster --command 'docker system prune -f -a';
-gcloud compute instances update-container dagster --zone us-central1-c --container-image us-central1-docker.pkg.dev/${GOOGLE_CLOUD_PROJECT}/dagster/dagster --project ${GOOGLE_CLOUD_PROJECT};
-```
