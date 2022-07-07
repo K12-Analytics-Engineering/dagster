@@ -15,7 +15,6 @@ class GcsClient:
         self.staging_gcs_bucket = staging_gcs_bucket
         self.log = get_dagster_logger()
 
-
     def delete_files(self, gcs_path):
         """
         Delete all files in passed in bucket folder
@@ -28,12 +27,7 @@ class GcsClient:
 
         self.log.info(f"Deleted {len(blobs)} files from {gcs_path}")
 
-
-    def upload_df(
-        self,
-        folder_name: str,
-        file_name: str,
-        df: pd.DataFrame) -> str:
+    def upload_df(self, folder_name: str, file_name: str, df: pd.DataFrame) -> str:
         """
         Upload dataframe to GCS as CSV
         and return GCS folder path.
@@ -45,19 +39,17 @@ class GcsClient:
             self.log.error("Sorry, that bucket does not exist!")
             raise
 
-        self.log.debug(f"Uploading {file_name} to gs://{self.staging_gcs_bucket}/{folder_name}")
+        self.log.debug(
+            f"Uploading {file_name} to gs://{self.staging_gcs_bucket}/{folder_name}"
+        )
 
-        bucket.blob(
-            f"{folder_name}/{file_name}").upload_from_string(
-                df.to_csv(
-                    index=False,
-                    quoting=csv.QUOTE_ALL
-                ),
-                content_type="text/csv",
-                num_retries=3)
+        bucket.blob(f"{folder_name}/{file_name}").upload_from_string(
+            df.to_csv(index=False, quoting=csv.QUOTE_ALL),
+            content_type="text/csv",
+            num_retries=3,
+        )
 
         return f"gs://{self.staging_gcs_bucket}/{folder_name}/{file_name}"
-
 
     def upload_json(self, path, records) -> str:
         """
@@ -78,7 +70,6 @@ class GcsClient:
         self.log.debug(f"Uploaded JSON file to {gcs_upload_path}")
 
         return gcs_upload_path
-
 
 
 @resource(

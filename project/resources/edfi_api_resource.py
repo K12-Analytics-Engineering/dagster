@@ -10,7 +10,9 @@ from tenacity import retry, stop_after_attempt, wait_exponential
 class EdFiApiClient:
     """Class for interacting with an Ed-Fi API"""
 
-    def __init__(self, base_url, api_key, api_secret, api_page_limit, api_mode, api_version):
+    def __init__(
+        self, base_url, api_key, api_secret, api_page_limit, api_mode, api_version
+    ):
         self.base_url = base_url
         self.api_key = api_key
         self.api_secret = api_secret
@@ -94,13 +96,10 @@ class EdFiApiClient:
         else:
             endpoint = f"{self.base_url}/data/v3{api_endpoint}" f"?limit={limit}"
 
-        if (
-            latest_processed_change_version is not None
-            and newest_change_version is not None
-        ):
+        if latest_processed_change_version > -1 and newest_change_version > -1:
             endpoint = (
                 f"{endpoint}"
-                f"&minChangeVersion={latest_processed_change_version + 1}"
+                f"&minChangeVersion={latest_processed_change_version}"
                 f"&maxChangeVersion={newest_change_version}"
             )
 
@@ -122,11 +121,9 @@ class EdFiApiClient:
                 # move onto next page
                 offset = offset + limit
 
-
     def delete_data(self, id, school_year, api_endpoint) -> str:
-        """
-        """
-        headers = { "Authorization": f"Bearer {self.access_token}" }
+        """ """
+        headers = {"Authorization": f"Bearer {self.access_token}"}
         if self.api_mode == "YearSpecific":
             endpoint = f"{self.base_url}/data/v3/{school_year}/{api_endpoint}/{id}"
         else:
@@ -135,10 +132,7 @@ class EdFiApiClient:
         self.log.debug(endpoint)
 
         try:
-            response = requests.delete(
-                endpoint,
-                headers=headers
-            )
+            response = requests.delete(endpoint, headers=headers)
             response.raise_for_status()
         except requests.exceptions.HTTPError as err:
             if response.status_code == 404:
@@ -150,17 +144,12 @@ class EdFiApiClient:
 
         return f"Ed-Fi API ID {id} successfully deleted"
 
-
-    def post_data(
-        self,
-        records,
-        school_year: int,
-        api_endpoint: str) -> List:
+    def post_data(self, records, school_year: int, api_endpoint: str) -> List:
         """
         Loop through payloads and POST
         to passed in Ed-Fi API endpoint.
         """
-        headers = { "Authorization": f"Bearer {self.access_token}" }
+        headers = {"Authorization": f"Bearer {self.access_token}"}
         if self.api_mode == "YearSpecific":
             endpoint = f"{self.base_url}/data/v3/{school_year}/{api_endpoint}"
         else:
@@ -170,14 +159,10 @@ class EdFiApiClient:
 
         generated_ids = list()
         for record in records:
-            response = requests.post(
-                endpoint,
-                headers=headers,
-                json=record
-            )
+            response = requests.post(endpoint, headers=headers, json=record)
             response.raise_for_status()
             self.log.debug(f"Successfully posted {response.headers['location']}")
-            generated_ids.append(response.headers['location'])
+            generated_ids.append(response.headers["location"])
 
         self.log.debug(generated_ids)
         return generated_ids
@@ -190,7 +175,7 @@ class EdFiApiClient:
         "api_secret": str,
         "api_page_limit": int,
         "api_mode": str,
-        "api_version": str
+        "api_version": str,
     },
     description="Ed-Fi API client that retrieves data from various endpoints.",
 )
@@ -201,5 +186,5 @@ def edfi_api_resource_client(context):
         context.resource_config["api_secret"],
         context.resource_config["api_page_limit"],
         context.resource_config["api_mode"],
-        context.resource_config["api_version"]
+        context.resource_config["api_version"],
     )

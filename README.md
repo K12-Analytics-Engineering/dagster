@@ -1,14 +1,8 @@
 # Dagster
-This repository contains various Dagster ELT jobs.
-
-* [Ed-Fi API to BigQuery data marts](./docs/edfi_api.md)
-* [NWEA MAP API to Ed-Fi API](./docs/nwea_map.md)
-* [Google Forms API to Ed-Fi API](./docs/google_forms.md)
-
 
 ![Data stack](/assets/k12_data_stack.png)
 
-The Dagster code that you likely came here for is the code that moves data from an Ed-Fi API into Google Cloud Storage and from there materializes the data into various data marts in Google BigQuery. This is a common ELT architecture where raw data is extracted from a source system and stored in a data lake (extract and load). From there transformation happens to turn that data into datasets built out for use in analytics.
+This repository contains Dagster code to move data from an Ed-Fi API into Google Cloud Storage and from there materializes the data into various data marts in Google BigQuery. This is a common ELT architecture where raw data is extracted from a source system and stored in a data lake (extract and load). From there transformation happens to turn that data into datasets built out for use in analytics.
 
 > **Note**
 > The Ed-Fi Data Standard is well defined and used across many organizations. This is done to provide vendors with a common API surface for which to build API clients against. Analytics is different. Analytics is more personal. This code is meant to provide you with a strong foundational layer for your analytics layer. You **should** modify the dbt data models to allow for your dims and facts to represent your context. This is not a plug and play piece of software. You are expected to learn python and SQL, and modify this code.
