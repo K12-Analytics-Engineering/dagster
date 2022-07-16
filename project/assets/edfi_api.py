@@ -4,7 +4,6 @@ from datetime import datetime
 
 import pandas as pd
 from dagster import AssetKey, MetadataValue, Output, asset
-from dagster_dbt import load_assets_from_dbt_project
 
 from assets.edfi_api_endpoints import EDFI_API_ENDPOINTS
 
@@ -167,9 +166,3 @@ for edfi_endpoint in EDFI_API_ENDPOINTS:
         return extract_and_load
 
     edfi_assets.append(make_func(edfi_endpoint))
-
-
-dbt_assets = load_assets_from_dbt_project(
-    project_dir=os.getenv("DBT_PROJECT_DIR"),
-    profiles_dir=os.getenv("DBT_PROFILES_DIR"),
-)

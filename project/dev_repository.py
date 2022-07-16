@@ -1,22 +1,20 @@
 import os
 
-from dagster import (
-    ScheduleDefinition,
-    DefaultScheduleStatus,
-    define_asset_job,
-    fs_io_manager,
-    make_values_resource,
-    multiprocess_executor,
-    repository,
-    with_resources,
-)
-from resources.dbt_resource import dbt_cli_resource
+from dagster import (DefaultScheduleStatus, ScheduleDefinition,
+                     define_asset_job, fs_io_manager, make_values_resource,
+                     multiprocess_executor, repository, with_resources)
+from dagster_dbt import load_assets_from_dbt_project
 from dagster_gcp.gcs.resources import gcs_resource
 
-from assets.edfi_api import change_query_versions, dbt_assets, edfi_assets
+from assets.edfi_api import change_query_versions, edfi_assets
+from resources.dbt_resource import dbt_cli_resource
 from resources.edfi_api_resource import edfi_api_resource_client
 from resources.gcs_resource import gcs_client
 
+dbt_assets = load_assets_from_dbt_project(
+    project_dir=os.getenv("DBT_PROJECT_DIR"),
+    profiles_dir=os.getenv("DBT_PROFILES_DIR"),
+)
 
 edfi_api_refresh_job = define_asset_job(
     name="edfi_api_job", tags={"dagster/max_retries": 3}
@@ -48,7 +46,7 @@ edfi_delta_refresh_schedule = ScheduleDefinition(
 
 
 @repository(
-    default_executor_def=multiprocess_executor.configured({"max_concurrent": 8})
+    default_executor_def=multiprocess_executor.configured({"max_concurrent": 5})
 )
 def repository():
     edfi_assets_with_dev_resources = with_resources(
