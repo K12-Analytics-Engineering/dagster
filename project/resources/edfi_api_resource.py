@@ -80,7 +80,7 @@ class EdFiApiClient:
         self,
         api_endpoint: str,
         school_year: int,
-        latest_processed_change_version: int,
+        previous_change_version: int,
         newest_change_version: int,
     ) -> List[Dict]:
         """
@@ -96,10 +96,10 @@ class EdFiApiClient:
         else:
             endpoint = f"{self.base_url}/data/v3{api_endpoint}" f"?limit={limit}"
 
-        if latest_processed_change_version > -1 and newest_change_version > -1:
+        if previous_change_version > -1 and newest_change_version > -1:
             endpoint = (
                 f"{endpoint}"
-                f"&minChangeVersion={latest_processed_change_version}"
+                f"&minChangeVersion={previous_change_version}"
                 f"&maxChangeVersion={newest_change_version}"
             )
 

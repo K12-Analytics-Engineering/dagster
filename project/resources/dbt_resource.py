@@ -8,8 +8,10 @@ from dagster_dbt.cli.constants import (
 
 class DbtResource(DbtCliResource):
     def run(self, **kwargs):
-        self.cli("deps")
-        self.cli("run-operation stage_external_sources")
+        self.cli("deps")  #  install dbt packages
+        self.cli(
+            "run-operation stage_external_sources"
+        )  # create bigquery external tables
         super().run(**kwargs)
 
 

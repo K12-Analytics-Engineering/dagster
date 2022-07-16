@@ -76,7 +76,7 @@ class GcsClient:
     config_schema={
         "staging_gcs_bucket": str,
     },
-    description="BigQuery client used to load data.",
+    description="Google Cloud Storage client",
 )
 def gcs_client(context):
     """
