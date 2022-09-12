@@ -33,11 +33,11 @@ def change_query_versions(context):
         try:
             # get previous materialization events
             last_materialization = context.instance.get_latest_materialization_events(
-                asset_keys=[AssetKey(("edfi_api", "change_query_versions"))]
+                asset_keys=[AssetKey(("staging", "change_query_versions"))]
             )
             # iterate through metadata entries looking for previous change version number
             for metadata_entry in last_materialization[
-                AssetKey(("edfi_api", "change_query_versions"))
+                AssetKey(("staging", "change_query_versions"))
             ].dagster_event.event_specific_data.materialization.metadata_entries:
                 if metadata_entry.label == "Newest change version":
                     # change version number found
