@@ -2,6 +2,3 @@ load_from:
   - python_file:
       relative_path: project/dev_repository.py
       location_name: development
-  - python_file:
-      relative_path: project/prod_repository.py
-      location_name: production

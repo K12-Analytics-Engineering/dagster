@@ -57,7 +57,7 @@ class EdFiApiClient:
         except requests.exceptions.HTTPError as err:
             self.log.warn(f"Failed to retrieve data: {err}")
             self.log.warn(response.reason)
-            if response.status_code == 401 and response.reason == "Invalid token":
+            if response.status_code == 401:
                 self.log.info("Retrieving new access token")
                 self.access_token = self.get_access_token()
             raise err
