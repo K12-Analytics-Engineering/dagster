@@ -11,14 +11,14 @@ class EdFiApiClient:
     """Class for interacting with an Ed-Fi API"""
 
     def __init__(
-        self, base_url, api_key, api_secret, api_page_limit, api_mode, api_version
+        self, base_url, api_key, api_secret, api_page_limit, api_mode, data_model
     ):
         self.base_url = base_url
         self.api_key = api_key
         self.api_secret = api_secret
         self.api_page_limit = api_page_limit
         self.api_mode = api_mode
-        self.api_version = api_version
+        self.data_model = data_model
         self.log = get_dagster_logger()
         self.access_token = self.get_access_token()
 
@@ -175,7 +175,7 @@ class EdFiApiClient:
         "api_secret": str,
         "api_page_limit": int,
         "api_mode": str,
-        "api_version": str,
+        "data_model": str,
     },
     description="Ed-Fi API client that retrieves data from various endpoints.",
 )
@@ -186,5 +186,5 @@ def edfi_api_resource_client(context):
         context.resource_config["api_secret"],
         context.resource_config["api_page_limit"],
         context.resource_config["api_mode"],
-        context.resource_config["api_version"],
+        context.resource_config["data_model"],
     )

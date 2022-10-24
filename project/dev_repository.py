@@ -38,7 +38,7 @@ def repository():
             "gcs": gcs_resource,
             "io_manager": fs_io_manager,
             "data_lake": gcs_client.configured(
-                {"staging_gcs_bucket": os.getenv("GCS_BUCKET_DEV")}
+                {"staging_gcs_bucket": os.getenv("GCS_BUCKET")}
             ),
             "dbt": dbt_cli_resource.configured(
                 {
@@ -54,13 +54,13 @@ def repository():
                     "api_secret": os.getenv("EDFI_API_SECRET"),
                     "api_page_limit": 2500,
                     "api_mode": "YearSpecific",  # DistrictSpecific, SharedInstance, YearSpecific
-                    "api_version": "5.3",
+                    "data_model": "3.3.1-b",
                 }
             ),
             "globals": make_values_resource(school_year=int),
         },
         resource_config_by_key={
-            "globals": {"config": {"school_year": 2022}}
+            "globals": {"config": {"school_year": 2023}}
         },  # this will inform the year in the API URL for YearSpecific as well as the cloud storage folder structure
     )
     return [*edfi_assets_with_dev_resources, edfi_api_refresh_job]

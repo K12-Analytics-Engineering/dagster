@@ -144,8 +144,8 @@ for edfi_asset in EDFI_API_ENDPOINTS:
                     # upload current set of records from generator
                     path = context.resources.data_lake.upload_json(
                         path=(
-                            f"edfi_api/{edfi_asset['asset']}/api_version={context.resources.edfi_api_client.api_version}/"
-                            f"school_year={school_year}/"
+                            f"edfi_api/{edfi_asset['asset']}/school_year={school_year}/"
+                            f"data_model={context.resources.edfi_api_client.data_model}/"
                             f"date_extracted={launch_datetime}/extract_type={extract_type}/"
                             f"{abs(hash(endpoint))}-{file_number:09}.json"
                         ),

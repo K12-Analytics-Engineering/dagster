@@ -101,7 +101,7 @@ gsutil mb "gs://dagster-dev-${GOOGLE_CLOUD_PROJECT}";
 gsutil mb "gs://dagster-prod-${GOOGLE_CLOUD_PROJECT}";
 ```
 
-Set the `GCS_BUCKET_DEV` and `GCS_BUCKET_PROD` variables to the newly created bucket names.
+Set the `GCS_BUCKET` variables to the newly created bucket names.
 
 You should now have all variables completed in the `.env` files in both your dagster and dbt folders.
 
