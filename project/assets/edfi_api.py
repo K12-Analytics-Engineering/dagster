@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 
-from dagster import AssetKey, MetadataValue, Output, asset
+from dagster import AssetKey, DagsterInstance, MetadataValue, Output, asset
 
 from assets.edfi_api_endpoints import EDFI_API_ENDPOINTS
 
@@ -21,33 +21,39 @@ def change_query_versions(context):
 
     Use -1 and -1 if the run config is set to not use change queries.
     """
+    # if run config is set to not use change queries
     if not context.op_config["use_change_queries"]:
         context.log.info("Will not use change queries")
         previous_change_version = -1
         newest_change_version = -1
     else:
+        # if using change queries
         context.log.info("Using change queries")
         school_year = context.resources.globals["school_year"]
         previous_change_version = 0
 
-        try:
-            # get previous materialization events
-            last_materialization = context.instance.get_latest_materialization_events(
-                asset_keys=[AssetKey(("staging", "change_query_versions"))]
-            )
-            # iterate through metadata entries looking for previous change version number
-            for metadata_entry in last_materialization[
-                AssetKey(("staging", "change_query_versions"))
-            ].dagster_event.event_specific_data.materialization.metadata_entries:
+        latest_materialization = DagsterInstance.get().get_latest_materialization_event(
+            asset_key=AssetKey(("staging", "change_query_versions"))
+        )
+
+        if latest_materialization is None:
+            # if this is the first materialization: use 0 as the min number
+            context.log.info("No previous materializations")
+        else:
+            # if there are materliazations find metadata entry providing most recent max number
+            for (
+                metadata_entry
+            ) in (
+                latest_materialization.get_dagster_event().event_specific_data.materialization.metadata_entries
+            ):
                 if metadata_entry.label == "Newest change version":
                     # change version number found
                     previous_change_version = metadata_entry.entry_data.value
-                    context.log.debug(
+                    context.log.info(
                         f"Setting previous change version to: {previous_change_version}"
                     )
-        except:
-            context.log.info("Did not find previous asset materialization")
 
+        # call the api and get the latest numbers
         response = context.resources.edfi_api_client.get_available_change_versions(
             school_year
         )
