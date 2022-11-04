@@ -143,7 +143,7 @@ for edfi_asset in EDFI_API_ENDPOINTS:
                                 if previous_change_version == -1
                                 else False,
                                 "id": id,
-                                "data": json.dumps(response),
+                                "data": response,
                             }
                         )
 
