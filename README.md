@@ -5,12 +5,12 @@
 This repository contains Dagster code to move data from an Ed-Fi API into Google Cloud Storage and from there materializes the data into various data marts in Google BigQuery. This is a common ELT architecture where raw data is extracted from a source system and stored in a data lake (extract and load). From there transformation happens to turn that data into datasets built out for use in analytics.
 
 > **Note**
-> The Ed-Fi Data Standard is well defined and used across many organizations. This is done to provide vendors with a common API surface for which to build API clients against. Analytics is different. Analytics is more personal. This code is meant to provide you with a strong foundational layer for your analytics layer. You **should** modify the dbt data models to allow for your dims and facts to represent your context. This is not a plug and play piece of software. You are expected to learn python and SQL, and modify this code.
+> This is not a plug and play piece of software. It requires you to learn python and SQL, and modify this code. The Ed-Fi Data Standard is well defined and used across many organizations. This is done to provide vendors with a common API surface for which to build API clients against. Analytics is different. Analytics is more personal. This code is meant to provide you with a strong foundational layer for your analytics layer. You **should** modify the dbt data models to allow for your dims and facts to represent your context.
 
 ## Development Environment
-Let's start by running Dagster locally on your machine. This is referred to as your `dev` environment. This is where you can make changes to the code and iterate quickly. Once you have a version of the code that's working well, that gets run in production and that's what your reports and dashboards are built from.
+Let's start by running Dagster locally on your machine. This is referred to as your `development` environment. This is where you can make changes to the code and iterate quickly. Once you have a version of the code that's working well, Dagster can be deployed to any cloud environment via a variety of methods.
 
-This Dagster code has been tested on a Mac and on a PC running Ubuntu via WSL2. Setup guides have been created for [Mac](https://github.com/K12-Analytics-Engineering/bootcamp/blob/main/docs/mac_setup_guide.md) and [Windows](https://github.com/K12-Analytics-Engineering/bootcamp/blob/main/docs/pc_setup_guide.md). These setup guides are meant to be opinionated to ensure that you're set up with a development workflow that doesn't hinder your ability to write code and iterate quickly.
+This Dagster code has been tested on a Mac and on a PC running Ubuntu via WSL2. Setup guides have been created for [Mac](https://github.com/K12-Analytics-Engineering/bootcamp/blob/main/docs/mac_setup_guide.md) and [Windows](https://github.com/K12-Analytics-Engineering/bootcamp/blob/main/docs/pc_setup_guide.md). These setup guides are meant to be opinionated to ensure that you are set up with a development workflow that doesn't hinder your ability to write code and iterate quickly.
 
 The dagster and dbt repositories in this GitHub organization are meant to be used together. Click the *Use this template* button on both repositories to make a copy into your personal GitHub and clone both to your local machine.
 
@@ -47,8 +47,9 @@ Create a Google Cloud Platform (GCP) project and set the following variables in 
 Run the commands below to enable the APIs necessary for this repository.
 
 ```sh
+# TODO: add google cloud project id below before setting the env variable
+export GOOGLE_CLOUD_PROJECT=
 gcloud config set project $GOOGLE_CLOUD_PROJECT;
-gcloud config set compute/region us-central1;
 
 gcloud services enable artifactregistry.googleapis.com;
 gcloud services enable cloudbuild.googleapis.com;
@@ -57,13 +58,16 @@ gcloud services enable container.googleapis.com;
 gcloud services enable servicenetworking.googleapis.com;
 gcloud services enable sqladmin.googleapis.com;
 gcloud services enable iamcredentials.googleapis.com;
+
+gcloud config set compute/region us-central1;
 ```
 
 ### Service Account
-Authentication with the GCP project happens through a service account. The commands below will create a service account and download a JSON key. This service account will also be used via Workload Identity when deployed in production on GKE.
+Authentication with the GCP project happens through a service account. The commands below will create a service account and download a JSON key.
 
 ```sh
-gcloud config set project $GOOGLE_CLOUD_PROJECT;
+# from the root of your dagster folder
+
 gcloud iam service-accounts create dagster \
   --display-name="dagster";
 
@@ -90,15 +94,12 @@ gcloud iam service-accounts keys create service.json \
     --iam-account=$SA_EMAIL;
 ```
 
-Store the downloaded JSON file in the root of the repository. Set the `GOOGLE_APPLICATION_CREDENTIALS` variable in your `.env` file to point to your service account JSON file.
-
 
 ### Google Cloud Storage
 Google Cloud Storage will be used to house the JSON data retrieved from the target Ed-Fi API. Create two buckets:
 
 ```sh
 gsutil mb "gs://dagster-dev-${GOOGLE_CLOUD_PROJECT}";
-gsutil mb "gs://dagster-prod-${GOOGLE_CLOUD_PROJECT}";
 ```
 
 Set the `GCS_BUCKET` variables to the newly created bucket names.
@@ -117,7 +118,7 @@ poetry install;
 
 You should now be able to launch dagit via the command below.
 ```bash
-dagit -w workspace.yaml;
+dagit dev -f project/repository.py
 ```
 
 

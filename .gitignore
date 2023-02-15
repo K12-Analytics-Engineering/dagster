@@ -9,6 +9,8 @@ logs/
 schedules/
 storage/
 dbt_packages/
+dagster_home/*
+!dagster_home/dagster.yaml
 
 target/
 dbt_modules/
@@ -200,3 +202,4 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,windows,python
 .user.yml
+.DS_Store

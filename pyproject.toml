@@ -8,10 +8,10 @@ license = "Apache License"
 [tool.poetry.dependencies]
 python = ">=3.9,<3.10"
 requests = "^2.27.1"
-dagster = "1.0.14"
-dagster-dbt = "0.16.14"
-dagster-gcp = "0.16.14"
-dbt-bigquery = "1.2.0"
+dagster = "1.1.18"
+dagster-dbt = "0.17.18"
+dagster-gcp = "0.17.18"
+dbt-bigquery = "1.4.0"
 google-api-python-client = "1.12.10"
 google-cloud-storage = "^2.1.0"
 pandas = "^1.4.1"
@@ -21,7 +21,7 @@ python-dotenv = "^0.19.2"
 
 [tool.poetry.dev-dependencies]
 black = "^22.1.0"
-dagit = "1.0.14"
+dagit = "1.1.18"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
